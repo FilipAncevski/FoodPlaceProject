@@ -1,0 +1,17 @@
+*{
+    box-sizing: border-box;
+    background-color: #F8F7F2;
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Roboto', sans-serif}
+
+#root{
+    height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+main{
+     height: 800px;
+     width: 100%;
+}

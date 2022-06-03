@@ -1,0 +1,59 @@
+.nav{
+    width: 80%;
+    height: 185px;
+    margin: 0px auto;
+    display: flex;
+    justify-content: space-between;
+    background-color: #F8F7F2;
+    align-items: center;
+}
+
+.category{
+    font-size: 18px;
+    color: #A5A5A5;
+    margin: 0px 22px;
+    font-weight: 600;
+}
+
+.dot{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #F0972A;
+}
+
+.category:active{   
+    color: #F0972A;
+}
+
+.account-container {
+    display: flex;
+    color: #F0972A;
+    font-weight: bold;
+    align-items: center;
+}
+
+.login-btn {
+    font-weight: bold;
+    font-size: 16px;
+    color: #A5A5A5;
+    border: solid 1.5px #A5A5A5;
+    border-radius: 6px;
+    padding: 12px 30px;
+    margin-right: 20px;
+}
+
+.register-btn {
+    font-weight: bold;
+    font-size: 16px;
+    color: #fff;
+    border: solid 1px #96BB36;
+    background-color: #96BB36;
+    border-radius: 7px;
+    padding: 12px 30px;
+    margin-left: 20px;
+    box-shadow: 5px 5px rgb(0,0,0,0.05);
+}
+/* ova ne e bas sredeno. Treba da se dopravi */
+

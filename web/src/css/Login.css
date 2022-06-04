@@ -1,0 +1,80 @@
+.login-container {
+    width: 80%;
+    height: 185px;
+    margin: 0px auto;
+}
+
+.login-container .heading{
+    font-weight: bold;
+    color: #96BB36;
+    font-size: 20px;
+}
+
+.login-container .line-container {
+    border-bottom: 1px solid #A5A5A5;
+}
+
+.section-container {
+    display: flex;
+    margin: 100px 0px 0px 0px;
+}
+
+.section-container .section-welcome{
+    flex: 1;
+}
+
+.section-container .section-welcome h2{
+    font-size: 40px;
+    margin: 0px 0px 20px 0px;
+}
+.section-container .section-welcome h2 .orange{
+    color: #F0972A;
+}
+
+.section-container .section-welcome h2 .grey{
+    color: #626262;
+
+}
+
+.section-container .section-welcome p{
+    color: #A5A5A5;
+    width: 75%;
+}
+    
+.section-container .login-form-container{
+    flex: 1;
+    margin: 0px 0px 0px 350px;
+}
+
+.section-container .login-form-container .login-form {
+    display: flex;
+    flex-direction: column;
+}
+.section-container .login-form-container .login-form label{
+    color: #F0972A;
+    margin: 0px 0px 10px 0px;
+    font-weight: bold;
+}
+
+.section-container .login-form-container .login-form input{
+    margin: 0px 0px 20px 0px;
+    padding: 12px 10px;
+    border-radius: 5px;
+    border-color: #A5A5A5;
+    width: 60%;
+    background-color: #F0EFEA;
+}
+
+.section-container .login-form-container .form-btn{
+    position: relative;
+    right: 20px;
+    margin: 10px 0px 0px 0px;
+}
+
+.section-container .login-form-container .form-btn button{
+    padding: 10px 30px;
+}
+
+
+
+

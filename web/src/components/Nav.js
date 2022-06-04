@@ -1,12 +1,15 @@
 import React from "react";
 import { Button } from "./Button";
+import { Link } from "react-router-dom";
 import "../css/Nav.css";
 
 export const Nav = () => {
   return (
     <div className="nav">
       <div className="logo-container">
-        <img src="./images/logo.png" alt="" />
+        <Link to="/">
+          <img src="./images/logo.png" alt="" />
+        </Link>
       </div>
       <div className="categories-container">
         <span className="category">BREAKFAST</span>
@@ -18,7 +21,10 @@ export const Nav = () => {
         <span className="category">DINNER</span>
       </div>
       <div className="account-container">
-        <Button usageFor="LOG IN" buttonType="login-btn" /> or
+        <Link to="/login">
+          <Button usageFor="LOG IN" buttonType="login-btn" />
+        </Link>{" "}
+        or
         <Button usageFor="CREATE ACCOUNT" buttonType="register-btn" />
       </div>
     </div>

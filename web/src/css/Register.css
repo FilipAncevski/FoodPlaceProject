@@ -1,0 +1,48 @@
+.register-container {
+    width: 80%;
+    height: 185px;
+    margin: 0px auto;
+}
+
+.section-container .section-create-acc{
+    flex: 1;
+}
+.section-container .register-form-container{
+    flex: 2;
+}
+
+.section-container .section-create-acc h2{
+    font-size: 40px;
+    margin: 0px 0px 20px 0px;
+}
+
+.section-container .section-create-acc p{
+    color: #A5A5A5;
+    width: 75%;
+}
+
+
+.row{
+    display: flex;
+    width: 100%;
+}
+.section-container .register-form-container .row .login-form{
+    width: 100%;
+}
+
+.section-container .register-form-container .row div:first-child {
+    position: relative;
+    left: 30px;
+}
+
+.section-container .register-form-container .row div:last-child {
+    position: relative;
+    right: 30px;
+}
+
+.section-container .register-form-container .form-btn{
+    position: relative;
+    left: 10px;
+    top: 30px;
+}
+

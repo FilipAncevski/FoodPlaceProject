@@ -25,7 +25,9 @@ export const Nav = () => {
           <Button usageFor="LOG IN" buttonType="login-btn" />
         </Link>{" "}
         or
-        <Button usageFor="CREATE ACCOUNT" buttonType="register-btn" />
+        <Link to="/register">
+          <Button usageFor="CREATE ACCOUNT" buttonType="register-btn" />
+        </Link>
       </div>
     </div>
   );

@@ -11,6 +11,14 @@
     flex: 2;
 }
 
+.register-container .heading-line-container .line-container{
+    flex: 8.5;
+}
+
+.register-container .heading-line-container .heading{
+    flex: 2;
+}
+
 .section-container .section-create-acc h2{
     font-size: 40px;
     margin: 0px 0px 20px 0px;

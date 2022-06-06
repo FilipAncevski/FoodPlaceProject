@@ -4,7 +4,16 @@
     margin: 0px auto;
 }
 
+.heading-line-container{
+    display: flex;
+}
+
+.line-container{
+    flex: 11.5;
+}
+
 .heading{
+    flex: 1;
     font-weight: bold;
     color: #96BB36;
     font-size: 20px;
@@ -12,6 +21,8 @@
 
 .line-container {
     border-bottom: 1px solid #A5A5A5;
+    position: relative;
+    bottom: 12px;
 }
 
 .section-container {

@@ -1,0 +1,45 @@
+.section-container table{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.section-container table thead{
+    color: #F0972A;
+}
+
+
+.section-container table thead tr {
+    display: flex;
+
+}
+
+.section-container table thead .flex-1 {
+    flex: 1.5;
+    position: relative;
+    right: 50px;
+
+}
+
+.section-container table thead .flex-9 {
+    flex: 7;
+    text-align: end;
+}
+
+.section-container table tbody tr {
+    display: flex;
+
+}
+
+.section-container table tbody .flex-1 {
+    flex: 1.5;
+    position: relative;
+
+}
+
+.section-container table tbody .flex-9 {
+    flex: 7;
+    text-align: end;
+}
+
+

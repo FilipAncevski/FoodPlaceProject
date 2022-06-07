@@ -1,0 +1,76 @@
+.container {
+    width: 80%;
+    height: 185px;
+    margin: 0px auto;
+}
+
+.container .heading-line-container .heading {
+    flex: 2;
+}
+
+.container .heading-line-container .line-container {
+    flex: 13.5;
+}
+
+.container .section-container .section-edit-profile .section-avatar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.container .section-container .section-edit-profile .section-avatar .img-container img{
+    width: 150px;
+    height: 150px;
+}
+
+.container .section-container .section-edit-profile .section-avatar .img-container {
+    position: relative;
+    left: 15px;
+}
+
+.container .section-container .section-edit-profile .section-avatar .btn-container{
+    position: relative;
+    bottom: 100px;
+}
+
+.container .section-container .section-edit-profile .section-avatar .btn-container button{
+    padding: 5px 22px;
+    font-weight: 100;
+}
+
+.section-edit-profile {
+    width: 100%;
+    height: 100%;
+}
+
+.section-edit-profile form{
+    display: flex;
+    flex-direction: row;
+}
+
+.section-edit-profile form .column{
+    flex: 1;
+}
+
+.section-container .section-edit-profile form .section-avatar{
+    flex: 0.6;
+}
+
+.section-edit-profile form .column input {
+    width: 90%;
+}
+
+.section-edit-profile form .column:nth-child(2) .form-btn{
+    position: relative;
+    right: 20px;
+    top: 20px;
+}
+
+.section-edit-profile form .column:nth-child(2) .form-btn button{
+    padding: 8px 35px;    
+}
+
+
+    
+

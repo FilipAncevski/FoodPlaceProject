@@ -1,3 +1,24 @@
+.container .heading-line-container .heading{
+    flex: 2.2;
+}
+
+.container .heading-line-container .line-container{
+    flex: 12;
+}
+
+.container .heading-line-container .add-container{
+    flex: 0.4;
+    background-color: #F0972A;
+    color: white;
+    height: 38px;
+    width: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 5px rgb(0,0,0,0.02);
+}
+
 .section-container table{
     width: 100%;
     display: flex;
@@ -11,14 +32,15 @@
 
 .section-container table thead tr {
     display: flex;
-
+    margin-bottom: 15px;
 }
+
 
 .section-container table thead .flex-1 {
     flex: 1.5;
-    position: relative;
-    right: 50px;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .section-container table thead .flex-9 {
@@ -28,18 +50,40 @@
 
 .section-container table tbody tr {
     display: flex;
+    color: #A5A5A5;
+}
 
+.section-container table tbody tr td {
+    padding: 20px 0px;
 }
 
 .section-container table tbody .flex-1 {
     flex: 1.5;
-    position: relative;
-
 }
 
 .section-container table tbody .flex-9 {
     flex: 7;
-    text-align: end;
+    justify-content: end;
+    padding-right: 20px;
 }
 
+.section-container table tbody td {
+    background-color: #fff;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.section-container table tbody td:nth-child(2) .button-container {
+    background-color: #fff;
+}
+
+.section-container table tbody td:nth-child(2) .button-container button{
+    padding: 5px 20px;
+    box-shadow: none;
+}
+
+.section-container table tbody td{
+    margin: 3px 0px;
+}

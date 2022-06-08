@@ -26,10 +26,22 @@ export const MyRecipes = () => {
             <tr>
               <td className="flex-1">Homemade Pizza</td>
               <td className="flex-1">
-                <Button buttonType={"login-btn"} usageFor={"BRUNCH"} />
+                <Button buttonType={"register-btn"} usageFor={"BRUNCH"} />
               </td>
               <td className="flex-1">22.11.2020</td>
-              <td className="flex-9">&#128465;</td>
+              <td className="flex-9">
+                <span className="trash-can">&#128465;</span>
+              </td>
+            </tr>
+            <tr>
+              <td className="flex-1">Homemade Pizza</td>
+              <td className="flex-1">
+                <Button buttonType={"register-btn"} usageFor={"BRUNCH"} />
+              </td>
+              <td className="flex-1">22.11.2020</td>
+              <td className="flex-9">
+                <span className="trash-can">&#128465;</span>
+              </td>
             </tr>
           </tbody>
         </table>

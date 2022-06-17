@@ -1,0 +1,127 @@
+.container .section-container form {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+}
+
+.container .section-container form label {
+    color: #F0972A;
+    font-weight: bold;
+    margin: 0px 0px 10px 0px;
+}
+
+.container .section-container form textarea{
+    resize: none;
+    border-radius: 4px;
+    padding: 5px;
+    background-color: #F0EFEA;
+}
+
+.container .section-container form input{
+    border-radius: 4px;
+    margin: 0px 0px 10px 0px;
+}
+    
+.container .section-container form .column:first-child img{
+    height: 150px;
+    width: 250px;
+    border-radius: 4px;
+}
+
+.container .section-container form .column{
+    flex: 1;
+}
+
+.container .section-container form .column:first-child{
+    flex: 0.5;
+}
+
+.container .section-container form .column:first-child .btn-container{
+    position: relative;
+    /* left: 15px; */
+    top: 20px
+}
+
+.container .section-container form .column:first-child .btn-container button{
+    width: 250px;
+    height: 35px;
+    padding: 5px;
+    font-weight: 100;
+}
+
+.container .section-container form .column:first-child .img-container {
+    position: relative;
+    top: 10px;
+}
+
+.container .section-container form .column:nth-child(2) div{
+    margin: 0px 0px 20px 0px;
+}
+
+.container .section-container form .column:nth-child(2) input{
+    height: 40px;
+    padding: 5px;
+    background-color: #F0EFEA;
+}
+
+.container .section-container form .column:nth-child(2) select{
+    height: 40px;
+    border-radius: 4px;
+    background-color: #F0EFEA; 
+    width: 90%;
+    padding: 5px;
+}
+
+.container .section-container form .column:nth-child(2) div{
+    display: flex;
+    flex-direction: column;
+}
+
+.container .section-container form .column:nth-child(2) .category-prep-time-no-ppl{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.container .section-container form .column:nth-child(2) .category-prep-time-no-ppl input{
+    width: 90%;
+}
+
+.container .section-container form .column:nth-child(2) .category-prep-time-no-ppl div:last-child{
+    position: relative;
+    left: 25px;
+}
+
+.container .section-container form .column:nth-child(2) .category-prep-time-no-ppl div:nth-child(2){
+    position: relative;
+    left: 15px;
+}
+
+.container .section-container form .column:nth-child(2) .category-prep-time-no-ppl div{
+    flex: 0.8;
+    margin: 0px 5px;
+}
+
+.container .section-container form .column:nth-child(2) .short-description textarea{
+    height: 80px;
+}
+
+.container .section-container form .column:nth-child(2) .form-btn-recipe button{
+    width: 120px;
+    height: 40px;
+    margin: 0px;
+    padding: 5px;
+}
+
+.container .section-container form .column:last-child{
+    position: relative;
+    left: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.container .section-container form .column:last-child textarea{
+    width: 95%;
+    height: 68.5%;
+}

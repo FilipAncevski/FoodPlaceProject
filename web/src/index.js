@@ -6,6 +6,7 @@ import { Login } from "./components/Login";
 import { Register } from "./components/Register";
 import { MyProfile } from "./components/MyProfile";
 import { MyRecipes } from "./components/MyRecipes";
+import { EditRecipe } from "./components/EditRecipe";
 import "./css/index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -17,6 +18,7 @@ root.render(
         <Route path="/register" element={<Register />} />
         <Route path="/myprofile" element={<MyProfile />} />
         <Route path="/myrecepies" element={<MyRecipes />} />
+        <Route path="/myrecepies/:id" element={<EditRecipe />} />
       </Route>
     </Routes>
   </Router>

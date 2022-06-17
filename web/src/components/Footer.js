@@ -6,7 +6,7 @@ export const Footer = () => {
     <div className="container-footer-color">
       <div className="footer-container">
         <div className="logo-footer-container">
-          <img src="./images/footer-logo.png" alt="" />
+          <img src="./images/footer-logo.png" alt="img is broken" />
         </div>
         <div className="categories-footer-container">
           <span className="category-footer">BREAKFAST</span>

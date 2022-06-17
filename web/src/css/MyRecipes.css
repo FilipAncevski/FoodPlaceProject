@@ -82,6 +82,7 @@
 .section-container table tbody td:nth-child(2) .button-container button{
     padding: 5px 20px;
     box-shadow: none;
+    font-weight: 100;
 }
 
 .section-container table tbody td{

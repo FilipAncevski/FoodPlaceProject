@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "./Button";
+import { BackIcon } from "./BackIcon";
 import "../css/EditRecipe.css";
 
 export const EditRecipe = () => {
@@ -10,7 +11,9 @@ export const EditRecipe = () => {
           <h1>My Recipes</h1>
         </div>
         <div className="line-container"></div>
-        <div className="back-container">&#43;</div>
+        <div className="back-container">
+          <BackIcon />
+        </div>
       </div>
       <div className="section-container">
         <form>

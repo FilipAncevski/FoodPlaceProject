@@ -6,19 +6,6 @@
     flex: 12;
 }
 
-.container .heading-line-container .add-container{
-    flex: 0.4;
-    background-color: #F0972A;
-    color: white;
-    height: 38px;
-    width: 30px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 2px 5px rgb(0,0,0,0.02);
-}
-
 .section-container table{
     width: 100%;
     display: flex;
@@ -46,6 +33,7 @@
 .section-container table thead .flex-9 {
     flex: 7;
     text-align: end;
+    padding-right: 27px;
 }
 
 .section-container table tbody tr {
@@ -64,7 +52,11 @@
 .section-container table tbody .flex-9 {
     flex: 7;
     justify-content: end;
-    padding-right: 20px;
+    padding-right: 40px;
+}
+
+.section-container table tbody .flex-9 svg {
+    background-color: #fff;
 }
 
 .section-container table tbody td {

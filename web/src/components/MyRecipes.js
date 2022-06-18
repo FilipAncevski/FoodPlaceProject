@@ -1,5 +1,7 @@
 import React from "react";
 import { Button } from "./Button";
+import { PlusIcon } from "./PlusIcon";
+import { TrashIcon } from "./TrashIcon";
 import "../css/MyRecipes.css";
 
 export const MyRecipes = () => {
@@ -10,7 +12,9 @@ export const MyRecipes = () => {
           <h1>My Recipes</h1>
         </div>
         <div className="line-container"></div>
-        <div className="add-container">&#43;</div>
+        <div className="back-container">
+          <PlusIcon />
+        </div>
       </div>
       <div className="section-container">
         <table>
@@ -30,7 +34,7 @@ export const MyRecipes = () => {
               </td>
               <td className="flex-1">22.11.2020</td>
               <td className="flex-9">
-                <span className="trash-can">&#128465;</span>
+                <TrashIcon />
               </td>
             </tr>
             <tr>
@@ -40,7 +44,7 @@ export const MyRecipes = () => {
               </td>
               <td className="flex-1">22.11.2020</td>
               <td className="flex-9">
-                <span className="trash-can">&#128465;</span>
+                <TrashIcon />
               </td>
             </tr>
           </tbody>

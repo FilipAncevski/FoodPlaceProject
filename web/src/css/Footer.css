@@ -20,6 +20,15 @@
     align-items: center;
 }
 
+.container-footer-color .footer-container .logo-footer-container svg {
+    background-color: #626262;
+}
+
+.container-footer-color .footer-container .logo-footer-container {
+    background-color: #626262;
+}
+
+
 .container-footer-color .footer-container .categories-footer-container .dot-footer{
     display: inline-block;
     width: 10px;
@@ -44,7 +53,3 @@
     background-color: #626262;
 }
 
-
-.logo-footer-container {
-    background-color: #626262;
-}

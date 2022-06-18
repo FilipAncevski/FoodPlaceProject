@@ -1,6 +1,9 @@
 import React from "react";
-import { Button } from "./Button";
 import { Link } from "react-router-dom";
+
+import { Button } from "./Button";
+import { Logo } from "./Logo";
+
 import "../css/Nav.css";
 
 export const Nav = () => {
@@ -8,7 +11,7 @@ export const Nav = () => {
     <div className="nav">
       <div className="logo-container">
         <Link to="/">
-          <img src="./images/logo.png" alt="img is broken" />
+          <Logo />
         </Link>
       </div>
       <div className="categories-container">

@@ -1,4 +1,7 @@
 import React from "react";
+
+import { LogoWhite } from "./LogoWhite";
+
 import "../css/Footer.css";
 
 export const Footer = () => {
@@ -6,7 +9,7 @@ export const Footer = () => {
     <div className="container-footer-color">
       <div className="footer-container">
         <div className="logo-footer-container">
-          <img src="./images/footer-logo.png" alt="img is broken" />
+          <LogoWhite />
         </div>
         <div className="categories-footer-container">
           <span className="category-footer">BREAKFAST</span>

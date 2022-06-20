@@ -1,0 +1,84 @@
+#card {
+    background-color: white;
+}
+
+.card-container {
+    margin: 40px 0px 40px 0px;
+    /* height: 430px; */
+    height: 100%;
+    width: 400px;
+    border: 1px solid #D8D8D8;
+    border-radius: 5px;
+    box-shadow: 0px 10px 20px #00000012;
+}
+
+.card-container .image-container img{
+    height: 240px;
+    width: 100%;
+}
+
+.card-container .info-container{
+    margin: 10px 0px 25px 0px;
+    padding: 5px 15px;
+    background-color: white;
+}
+
+.card-container .info-container .heading-description-container{
+    
+    background-color: white;
+}
+
+.card-container .info-container .heading-description-container h3{
+    color: #F0972A;
+    margin-bottom: 8px;
+    background-color: white;
+}
+
+.card-container .info-container .heading-description-container p{
+    color: #A5A5A5;
+    margin-bottom: 8px;
+    background-color: white;
+}
+
+.card-container .info-container .attributes-container{
+    display: flex;
+    background-color: white;
+}
+
+.card-container .info-container .attributes-container div{
+    background-color: white;
+    margin: 15px 13px 0px 0px;
+    display: flex;
+}
+
+.card-container .info-container .attributes-container div svg{
+    background-color: white;
+    margin-right: 5px;
+}
+
+.card-container .button-container .register-btn{
+    width: 80px;
+    height: 20px;
+    font-weight: 100;
+    box-shadow: none;
+    padding: 0px;
+}
+
+.card-container button {
+    position: relative;
+    bottom: 230px;
+}
+
+.card-container .arrows{
+    background-color: #96BB36;
+    border-radius: 4px;
+    padding: 5px 10px;
+    bottom: 0px;
+    top: 7px;
+    left: 65px;
+    border: none;
+}
+
+.card-container .arrows svg{
+    background-color: #96BB36;
+}

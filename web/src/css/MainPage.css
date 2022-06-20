@@ -1,0 +1,12 @@
+.container .fresh-new .heading-line-container .heading{
+    flex: 2.2;
+}
+
+.container .most-popular-recipe .heading-line-container .heading{
+    flex: 4.4;
+}
+
+.recipies-cards-container {
+    display: flex;
+    justify-content: space-between;
+}

@@ -36,7 +36,7 @@ app.use(
   })
 );
 
-app.use("/", express.static(path.join(__dirname, "/../../web/build")));
+// app.use("/", express.static(path.join(__dirname, "/../../web/build")));
 
 const PORT = process.env.PORT || config.get("services").proxy.port;
 

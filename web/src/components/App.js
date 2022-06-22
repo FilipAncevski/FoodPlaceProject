@@ -1,6 +1,5 @@
 import React from "react";
 import { Nav } from "./Nav";
-import { Outlet } from "react-router-dom";
 import { Footer } from "./Footer";
 import "../css/App.css";
 import { MainPage } from "./MainPage";
@@ -13,7 +12,6 @@ function App() {
       </nav>
       <main>
         <MainPage />
-        <Outlet />
       </main>
       <footer>
         <Footer />

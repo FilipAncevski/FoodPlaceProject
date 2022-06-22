@@ -55,5 +55,19 @@
     margin-left: 20px;
     box-shadow: 5px 5px rgb(0,0,0,0.05);
 }
-/* ova ne e bas sredeno. Treba da se dopravi */
+
+.account-container-logged-in .category{
+    border-bottom: 2px solid #A5A5A5;
+}
+
+.account-container-logged-in .green{
+    color: #96BB36;
+}
+.account-container-logged-in .grey{
+    color: #B5B5B4;
+}
+
+.account-container-logged-in .dot{
+    background-color: #626262;
+}
 

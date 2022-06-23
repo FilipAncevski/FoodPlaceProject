@@ -9,6 +9,7 @@ const {
   refreshToken,
   register,
   resetPassword,
+  getAccsInfo,
 } = require("./handlers");
 
 const api = express();
@@ -31,6 +32,7 @@ api.use(
 api.post("/api/v1/auth/login", login);
 api.post("/api/v1/auth/register", register);
 api.get("/api/v1/auth/refresh-token", refreshToken);
+api.get("/api/v1/auth/accs-info", getAccsInfo);
 api.post("/api/v1/auth/forgot-password", forgotPassword);
 api.post("/api/v1/auth/reset-password", resetPassword);
 

@@ -74,10 +74,20 @@ const resetPassword = async (req, res) => {
   return res.send("OK");
 };
 
+const getAccsInfo = async (req, res) => {
+  try {
+    const accs = await profile.getAllProfile();
+    return res.status(200).send(accs);
+  } catch (err) {
+    return res.status(500).send(err.error);
+  }
+};
+
 module.exports = {
   login,
   register,
   refreshToken,
   forgotPassword,
   resetPassword,
+  getAccsInfo,
 };

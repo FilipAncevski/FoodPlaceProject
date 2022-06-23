@@ -13,6 +13,7 @@ export const Nav = () => {
 
   const logOut = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("email");
     navigate("/");
   };
 

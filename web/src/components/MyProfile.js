@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { Button } from "./Button";
 import { Nav } from "./Nav";
@@ -7,6 +7,33 @@ import { Footer } from "./Footer";
 import "../css/MyProfile.css";
 
 export const MyProfile = () => {
+  const [accLogged, setAccLogged] = useState([]);
+
+  const getData = async () => {
+    try {
+      let res = await fetch("/api/v1/auth/accs-info", {
+        headers: {
+          "content-type": "application/json",
+          authorization: `bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      let data = await res.json();
+      setAccLogged(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const user = accLogged.find(
+    (acc) => acc.email === localStorage.getItem("email")
+  );
+
+  const [accInfo, setAccInfo] = useState(user);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <div className="App">
       <nav>
@@ -39,12 +66,8 @@ export const MyProfile = () => {
                 </div>
                 <div className="column">
                   <div className="login-form">
-                    <label htmlFor="first_name">First Name</label>
-                    <input
-                      placeholder="Enter your First Name"
-                      id="first_name"
-                      name="account[first_name]"
-                    />
+                    <label htmlFor="firstName">First Name</label>
+                    <input placeholder="" id="firstName" name="firstName" />
                   </div>
                   <div className="login-form">
                     <label htmlFor="email">Email</label>

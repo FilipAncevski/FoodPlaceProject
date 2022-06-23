@@ -27,6 +27,7 @@ export const Login = () => {
 
   const submitData = async (e) => {
     e.preventDefault();
+
     try {
       const res = await fetch("/api/v1/auth/login", {
         method: "POST",
@@ -35,12 +36,17 @@ export const Login = () => {
           "content-type": "application/json",
         },
       });
+      if (accountForm.email === "" || accountForm.password === "") {
+        // eslint-disable-next-line
+        throw "Please fill in your account and password";
+      }
       if (!res.ok) {
         // eslint-disable-next-line
         throw "There was a error while you were logging in";
       }
       const data = await res.json();
       localStorage.setItem("token", data.token);
+      localStorage.setItem("email", accountForm.email);
       navigate("/myprofile");
     } catch (error) {
       alert(error);

@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+
+import { useNavigate } from "react-router-dom";
 
 import { Button } from "./Button";
 import { Nav } from "./Nav";
@@ -7,6 +9,61 @@ import { Footer } from "./Footer";
 import "../css/Register.css";
 
 export const Register = () => {
+  const newAccInfo = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    birthday: Date,
+    password: "",
+  };
+
+  const [newAccForm, setNewAccForm] = useState(newAccInfo);
+
+  const [repeatPassword, setRepeatPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const repeatPasswordChange = (e) => {
+    setRepeatPassword(e.target.value);
+  };
+
+  const inputChange = (e) => {
+    setNewAccForm({
+      ...newAccForm,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const submitNewAcc = async (e) => {
+    e.preventDefault();
+
+    try {
+      newAccForm.birthday = new Date(newAccForm.birthday);
+
+      if (newAccForm.birthday.getFullYear() >= 2011) {
+        // eslint-disable-next-line
+        throw "Your must be at least 12 years old to register on our site";
+      }
+
+      if (newAccForm.password.toString() !== repeatPassword.toString()) {
+        // eslint-disable-next-line
+        throw "Your password doesnt match, try again";
+      }
+
+      await fetch("/api/v1/auth/register", {
+        method: "POST",
+        body: JSON.stringify(newAccForm),
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+
+      navigate("/login");
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   return (
     <div className="App">
       <nav>
@@ -40,22 +97,24 @@ export const Register = () => {
               </p>
             </div>
             <div className="register-form-container">
-              <form>
+              <form onSubmit={submitNewAcc}>
                 <div className="row 1">
                   <div className="login-form">
-                    <label htmlFor="first_name">First Name</label>
+                    <label htmlFor="firstName">First Name</label>
                     <input
                       placeholder="Enter your First Name"
-                      id="first_name"
-                      name="account[first_name]"
+                      id="firstName"
+                      name="firstName"
+                      onChange={inputChange}
                     />
                   </div>
                   <div className="login-form">
-                    <label htmlFor="last_name">Last Name</label>
+                    <label htmlFor="lastName">Last Name</label>
                     <input
                       placeholder="Enter your Last Name"
-                      id="last_name"
-                      name="account[last_name]"
+                      id="lastName"
+                      name="lastName"
+                      onChange={inputChange}
                     />
                   </div>
                 </div>
@@ -65,7 +124,8 @@ export const Register = () => {
                     <input
                       placeholder="Enter your Email"
                       id="email"
-                      name="account[email]"
+                      name="email"
+                      onChange={inputChange}
                     />
                   </div>
                   <div className="login-form">
@@ -73,8 +133,9 @@ export const Register = () => {
                     <input
                       placeholder="dd-mm-yyyy"
                       id="birthday"
-                      name="account[birthday]"
+                      name="birthday"
                       type="date"
+                      onChange={inputChange}
                     />
                   </div>
                 </div>
@@ -84,21 +145,27 @@ export const Register = () => {
                     <input
                       placeholder="Enter your Password"
                       id="password"
-                      name="account[password]"
+                      name="password"
                       type={"password"}
+                      onChange={inputChange}
                     />
                   </div>
                   <div className="login-form">
                     <label htmlFor="repeat-password">Repeat password</label>
                     <input
-                      placeholder="Enter your First Name"
+                      placeholder="Confirm your Password"
                       id="repeat-password"
                       type={"password"}
+                      onChange={repeatPasswordChange}
                     />
                   </div>
                 </div>
                 <div className="form-btn">
-                  <Button buttonType="register-btn" usageFor="CREATE ACCOUNT" />
+                  <Button
+                    type={"submit"}
+                    buttonType="register-btn"
+                    usageFor="CREATE ACCOUNT"
+                  />
                 </div>
               </form>
             </div>

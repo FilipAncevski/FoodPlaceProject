@@ -7,33 +7,46 @@ import { Footer } from "./Footer";
 import "../css/MyProfile.css";
 
 export const MyProfile = () => {
-  const [accLogged, setAccLogged] = useState([]);
+  const [accInfo, setAccInfo] = useState({});
+
+  // const getBirthday = () => {
+  //   console.log(accInfo.birthday);
+  //   const year = accInfo.birthday.slice(0, 4);
+  //   const month = accInfo.birthday.slice(5, 7);
+  //   const day = accInfo.birthday.slice(8, 10);
+  //   return `${month}/${day}/${year}`;
+  // };
 
   const getData = async () => {
     try {
       let res = await fetch("/api/v1/auth/accs-info", {
+        method: "GET",
         headers: {
           "content-type": "application/json",
           authorization: `bearer ${localStorage.getItem("token")}`,
         },
       });
       let data = await res.json();
-      setAccLogged(data);
+      let acc = data.find(
+        (person) => person.email === localStorage.getItem("email")
+      );
+      // acc.birthday = getBirthday();
+      setAccInfo(acc);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const user = accLogged.find(
-    (acc) => acc.email === localStorage.getItem("email")
-  );
-
-  const [accInfo, setAccInfo] = useState(user);
+  const changeInput = (e) => {
+    setAccInfo({
+      ...accInfo,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   useEffect(() => {
     getData();
   }, []);
-
   return (
     <div className="App">
       <nav>
@@ -67,23 +80,33 @@ export const MyProfile = () => {
                 <div className="column">
                   <div className="login-form">
                     <label htmlFor="firstName">First Name</label>
-                    <input placeholder="" id="firstName" name="firstName" />
+                    <input
+                      // placeholder={accInfo.firstName}
+                      value={accInfo.firstName}
+                      id="firstName"
+                      name="firstName"
+                      onChange={changeInput}
+                    />
                   </div>
                   <div className="login-form">
                     <label htmlFor="email">Email</label>
                     <input
-                      placeholder="Enter your Email"
+                      placeholder={accInfo.email}
                       id="email"
-                      name="account[email]"
+                      name="email"
+                      onChange={changeInput}
+                      value={accInfo.email}
                     />
                   </div>
                   <div className="login-form">
                     <label htmlFor="password">Password</label>
                     <input
-                      placeholder="Enter your Password"
+                      placeholder="******"
                       id="password"
-                      name="account[password]"
+                      name="account[password
+                      onChange={changeInput}]"
                       type={"password"}
+                      value={accInfo.password}
                     />
                   </div>
                   <div className="form-btn">
@@ -92,11 +115,13 @@ export const MyProfile = () => {
                 </div>
                 <div className="column">
                   <div className="login-form">
-                    <label htmlFor="last_name">Last Name</label>
+                    <label htmlFor="lastName">Last Name</label>
                     <input
-                      placeholder="Enter your Last Name"
-                      id="last_name"
-                      name="account[last_name]"
+                      placeholder={accInfo.lastName}
+                      id="lastName"
+                      name="lastName"
+                      onChange={changeInput}
+                      value={accInfo.lastName}
                     />
                   </div>
                   <div className="login-form">
@@ -104,14 +129,18 @@ export const MyProfile = () => {
                     <input
                       placeholder="dd-mm-yyyy"
                       id="birthday"
-                      name="account[birthday]"
+                      name="birthday"
+                      onChange={changeInput}
                       type="date"
+                      max="2010-01-07"
+                      min="1922-0-0"
+                      value={accInfo.birthday}
                     />
                   </div>
                   <div className="login-form">
                     <label htmlFor="repeat-password">Repeat password</label>
                     <input
-                      placeholder=""
+                      placeholder="******"
                       id="repeat-password"
                       type={"password"}
                     />

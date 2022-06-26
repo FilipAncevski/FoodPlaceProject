@@ -16,17 +16,17 @@ export const MyProfile = () => {
   };
   const [accInfo, setAccInfo] = useState(accoutInfo);
 
-  const getBirthday = () => {
-    console.log(accInfo.birthday);
-    const year = accInfo.birthday.slice(0, 4);
-    console.log(year);
-    const month = accInfo.birthday.slice(5, 7);
-    console.log(month);
-    const day = accInfo.birthday.slice(8, 10);
-    console.log(day);
-    console.log(`${month}/${day}/${year}`);
-    return `${year}/${month}/${day}`;
-  };
+  // const getBirthday = () => {
+  //   console.log(accInfo.birthday);
+  //   const year = accInfo.birthday.slice(0, 4);
+  //   console.log(year);
+  //   const month = accInfo.birthday.slice(5, 7);
+  //   console.log(month);
+  //   const day = accInfo.birthday.slice(8, 10);
+  //   console.log(day);
+  //   console.log(`${month}/${day}/${year}`);
+  //   return `${year}/${month}/${day}`;
+  // };
 
   const getData = async () => {
     try {

@@ -7,15 +7,26 @@ import { Footer } from "./Footer";
 import "../css/MyProfile.css";
 
 export const MyProfile = () => {
-  const [accInfo, setAccInfo] = useState({});
+  const accoutInfo = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    birthday: "",
+    password: "",
+  };
+  const [accInfo, setAccInfo] = useState(accoutInfo);
 
-  // const getBirthday = () => {
-  //   console.log(accInfo.birthday);
-  //   const year = accInfo.birthday.slice(0, 4);
-  //   const month = accInfo.birthday.slice(5, 7);
-  //   const day = accInfo.birthday.slice(8, 10);
-  //   return `${month}/${day}/${year}`;
-  // };
+  const getBirthday = () => {
+    console.log(accInfo.birthday);
+    const year = accInfo.birthday.slice(0, 4);
+    console.log(year);
+    const month = accInfo.birthday.slice(5, 7);
+    console.log(month);
+    const day = accInfo.birthday.slice(8, 10);
+    console.log(day);
+    console.log(`${month}/${day}/${year}`);
+    return `${year}/${month}/${day}`;
+  };
 
   const getData = async () => {
     try {
@@ -31,6 +42,7 @@ export const MyProfile = () => {
         (person) => person.email === localStorage.getItem("email")
       );
       // acc.birthday = getBirthday();
+      console.log(acc);
       setAccInfo(acc);
     } catch (error) {
       console.log(error);
@@ -103,8 +115,8 @@ export const MyProfile = () => {
                     <input
                       placeholder="******"
                       id="password"
-                      name="account[password
-                      onChange={changeInput}]"
+                      name="password"
+                      onChange={changeInput}
                       type={"password"}
                       value={accInfo.password}
                     />

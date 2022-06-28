@@ -76,8 +76,21 @@ const resetPassword = async (req, res) => {
 
 const getAccsInfo = async (req, res) => {
   try {
-    const accs = await profile.getAllProfile();
-    return res.status(200).send(accs);
+    const acc = await profile.getProfileByID(req.user.id);
+    return res.status(200).send(acc);
+  } catch (err) {
+    return res.status(500).send(err.error);
+  }
+};
+
+const updateAccount = async (req, res) => {
+  try {
+    await validate(req.body, Profile);
+
+    req.body.password = bcrypt.hashSync(req.body.password);
+
+    const acc = await profile.updateProfile(req.user.id, req.body);
+    return res.status(200).send(acc);
   } catch (err) {
     return res.status(500).send(err.error);
   }
@@ -90,4 +103,5 @@ module.exports = {
   forgotPassword,
   resetPassword,
   getAccsInfo,
+  updateAccount,
 };

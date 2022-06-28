@@ -46,7 +46,6 @@ export const Login = () => {
       }
       const data = await res.json();
       localStorage.setItem("token", data.token);
-      localStorage.setItem("email", accountForm.email);
       navigate("/myprofile");
     } catch (error) {
       alert(error);

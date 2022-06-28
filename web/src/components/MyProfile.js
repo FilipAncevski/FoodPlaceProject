@@ -14,19 +14,25 @@ export const MyProfile = () => {
     birthday: "",
     password: "",
   };
+
   const [accInfo, setAccInfo] = useState(accoutInfo);
 
-  // const getBirthday = () => {
-  //   console.log(accInfo.birthday);
-  //   const year = accInfo.birthday.slice(0, 4);
-  //   console.log(year);
-  //   const month = accInfo.birthday.slice(5, 7);
-  //   console.log(month);
-  //   const day = accInfo.birthday.slice(8, 10);
-  //   console.log(day);
-  //   console.log(`${month}/${day}/${year}`);
-  //   return `${year}/${month}/${day}`;
-  // };
+  const [repeatPW, setRepeatPW] = useState("********");
+
+  const getBirthday = (birthday) => {
+    let date = new Date(birthday);
+    let day = date.getDate();
+    if (day <= 9) {
+      day = `0${day}`;
+    }
+    let month = date.getMonth() + 1;
+    if (month <= 9) {
+      month = `0${month}`;
+    }
+    let year = date.getFullYear();
+    let yyyyMmDd = `${year}-${month}-${day}`;
+    return yyyyMmDd;
+  };
 
   const getData = async () => {
     try {
@@ -38,13 +44,43 @@ export const MyProfile = () => {
         },
       });
       let data = await res.json();
-      let acc = data.find(
-        (person) => person.email === localStorage.getItem("email")
-      );
-      // acc.birthday = getBirthday();
-      console.log(acc);
-      setAccInfo(acc);
+      console.log(data.birthday);
+      data.birthday = getBirthday(data.birthday);
+      data.password = "********";
+      console.log(data.birthday);
+      setAccInfo(data);
     } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateAcc = async (e) => {
+    e.preventDefault();
+
+    try {
+      if (accInfo.password === "********" && repeatPW === "********") {
+        // eslint-disable-next-line
+        throw "Please enter a valid password";
+      }
+
+      if (accInfo.password !== repeatPW) {
+        // eslint-disable-next-line
+        throw "Password doesnt match, try again";
+      }
+
+      const res = await fetch("/api/v1/auth/updateInfo", {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+          authorization: `bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(accInfo),
+      });
+
+      window.location.reload();
+      console.log(res);
+    } catch (error) {
+      alert(error);
       console.log(error);
     }
   };
@@ -56,8 +92,13 @@ export const MyProfile = () => {
     });
   };
 
+  const changeInputPW = (e) => {
+    setRepeatPW(e.target.value);
+  };
+
   useEffect(() => {
     getData();
+    // eslint-disable-next-line
   }, []);
   return (
     <div className="App">
@@ -74,7 +115,7 @@ export const MyProfile = () => {
           </div>
           <div className="section-container">
             <div className="section-edit-profile">
-              <form>
+              <form onSubmit={updateAcc}>
                 <div className="section-avatar column">
                   <div className="img-container">
                     <img
@@ -145,7 +186,7 @@ export const MyProfile = () => {
                       onChange={changeInput}
                       type="date"
                       max="2010-01-07"
-                      min="1922-0-0"
+                      min="1922-01-01"
                       value={accInfo.birthday}
                     />
                   </div>
@@ -153,8 +194,10 @@ export const MyProfile = () => {
                     <label htmlFor="repeat-password">Repeat password</label>
                     <input
                       placeholder="******"
+                      value={repeatPW}
                       id="repeat-password"
                       type={"password"}
+                      onChange={changeInputPW}
                     />
                   </div>
                 </div>

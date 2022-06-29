@@ -1,15 +1,22 @@
 const fs = require("fs");
 const { makeID } = require("../../../pkg/strings");
 
-const DATA_SIZE = 1048576;
+const DATA_SIZE = 437500;
 const DATA_TYPE = ["image/jpeg", "image/png", "image/pjpeg", "image/gif"];
 
 const upload = async (req, res) => {
-  if (DATA_SIZE < req.files.document.size) {
+  // console.log(req.body);
+  // console.log(req.files);
+  // console.log(req.url);
+  // console.log(req.method);
+  // console.log(req.files);
+  // return res.status(200).send(req.files);
+  // // console.log(req.files.document);
+  if (DATA_SIZE < req.files.File.size) {
     return res.status(400).send("File upload is too large");
   }
 
-  if (!DATA_TYPE.includes(req.files.document.mimetype)) {
+  if (!DATA_TYPE.includes(req.files.File.mimetype)) {
     return res.status(404).send("File type is not supported");
   }
 
@@ -19,10 +26,10 @@ const upload = async (req, res) => {
   if (!fs.existsSync(userDirPath)) {
     fs.mkdirSync(userDirPath);
   }
-  const fileName = `${makeID(6)}_${req.files.document.name}`;
+  const fileName = `${makeID(6)}_${req.files.File.name}`;
   const filePath = `${userDirPath}/${fileName}`;
 
-  req.files.document.mv(filePath, (err) => {
+  req.files.File.mv(filePath, (err) => {
     if (err) {
       return res.status(500).send("Internal Server Error");
     }

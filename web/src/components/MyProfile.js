@@ -19,6 +19,60 @@ export const MyProfile = () => {
 
   const [repeatPW, setRepeatPW] = useState("********");
 
+  const [selectedFile, setSelectedFile] = useState();
+
+  const [isSeleced, setIsSelected] = useState(false);
+
+  const changeHandler = (event) => {
+    setSelectedFile(event.target.files[0]);
+    setIsSelected(true);
+  };
+
+  // const handleSubmission = async () => {
+  //   const formData = new FormData();
+
+  //   formData.append("file", selectedFile);
+  //   console.log(formData, "fasfsa");
+
+  //   // try {
+  //   //   const res = await fetch("/api/v1/storage", {
+  //   //     method: "POST",
+  //   //     body: formData,
+  //   //     headers: {
+  //   //       authorization: `bearer ${localStorage.getItem("token")}`,
+  //   //       "content-type": "image/jpeg",
+  //   //     },
+  //   //   });
+  //   //   let data = await res.json();
+  //   //   console.log(data);
+  //   // } catch (error) {
+  //   //   console.log(formData);
+  //   //   console.log(error);
+  //     // alert(error);
+  //   }
+  // };
+
+  const handleSubmission = () => {
+    const formData = new FormData();
+
+    formData.append("File", selectedFile);
+
+    fetch("/api/v1/storage", {
+      method: "POST",
+      body: formData,
+      headers: {
+        authorization: `bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log("Success:", result);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   const getBirthday = (birthday) => {
     let date = new Date(birthday);
     let day = date.getDate();
@@ -44,10 +98,10 @@ export const MyProfile = () => {
         },
       });
       let data = await res.json();
-      console.log(data.birthday);
+      // console.log(data.birthday);
       data.birthday = getBirthday(data.birthday);
       data.password = "********";
-      console.log(data.birthday);
+      // console.log(data.birthday);
       setAccInfo(data);
     } catch (error) {
       console.log(error);
@@ -99,7 +153,7 @@ export const MyProfile = () => {
   useEffect(() => {
     getData();
     // eslint-disable-next-line
-  }, []);
+  }, [isSeleced, setIsSelected]);
   return (
     <div className="App">
       <nav>
@@ -202,6 +256,16 @@ export const MyProfile = () => {
                   </div>
                 </div>
                 <div className="column"></div>
+              </form>
+              <form
+                onSubmit={handleSubmission}
+                id="dosadno"
+                enctype="multipart/form-data"
+              >
+                <input type="file" name="file" onChange={changeHandler} />
+                <div>
+                  <button type="submit">Submit</button>
+                </div>
               </form>
             </div>
           </div>

@@ -15,6 +15,7 @@ export const Nav = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("email");
     navigate("/");
+    window.location.reload();
   };
 
   useEffect(() => {

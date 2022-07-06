@@ -25,52 +25,55 @@ export const MyProfile = () => {
 
   const changeHandler = (event) => {
     setSelectedFile(event.target.files[0]);
+    console.log(event.target.files[0]);
     setIsSelected(true);
   };
 
-  // const handleSubmission = async () => {
-  //   const formData = new FormData();
+  const getInput = () => {
+    document.getElementById("getFile").click();
+  };
 
-  //   formData.append("file", selectedFile);
-  //   console.log(formData, "fasfsa");
+  const preventDefaultBehavior = (e) => {
+    e.preventDefault();
+  };
 
-  //   // try {
-  //   //   const res = await fetch("/api/v1/storage", {
-  //   //     method: "POST",
-  //   //     body: formData,
-  //   //     headers: {
-  //   //       authorization: `bearer ${localStorage.getItem("token")}`,
-  //   //       "content-type": "image/jpeg",
-  //   //     },
-  //   //   });
-  //   //   let data = await res.json();
-  //   //   console.log(data);
-  //   // } catch (error) {
-  //   //   console.log(formData);
-  //   //   console.log(error);
-  //     // alert(error);
-  //   }
-  // };
+  const updateAccountInfo = async (e) => {
+    // preventDefaultBehavior(e);
+    e.preventDefault();
+    try {
+      const image = await updateImage(e);
+      const account = await updateAcc(e);
+      console.log(image);
+      console.log(account);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  const handleSubmission = () => {
+  const updateImage = async (e) => {
+    // preventDefaultBehavior(e);
+    e.preventDefault();
+
     const formData = new FormData();
 
     formData.append("File", selectedFile);
 
-    fetch("/api/v1/storage", {
-      method: "POST",
-      body: formData,
-      headers: {
-        authorization: `bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log("Success:", result);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
+    try {
+      const res = await fetch("/api/v1/storage", {
+        method: "POST",
+        body: formData,
+        headers: {
+          authorization: `bearer ${localStorage.getItem("token")}`,
+          // "content-type": "multipart/form-data",
+        },
       });
+      let data = await res.json();
+      console.log(data);
+      return Promise.resolve(data);
+    } catch (error) {
+      console.log(error);
+      return Promise.reject(error);
+    }
   };
 
   const getBirthday = (birthday) => {
@@ -102,6 +105,7 @@ export const MyProfile = () => {
       data.birthday = getBirthday(data.birthday);
       data.password = "********";
       // console.log(data.birthday);
+      //ne povlekuvaj pw
       setAccInfo(data);
     } catch (error) {
       console.log(error);
@@ -109,7 +113,7 @@ export const MyProfile = () => {
   };
 
   const updateAcc = async (e) => {
-    e.preventDefault();
+    preventDefaultBehavior(e);
 
     try {
       if (accInfo.password === "********" && repeatPW === "********") {
@@ -131,11 +135,12 @@ export const MyProfile = () => {
         body: JSON.stringify(accInfo),
       });
 
-      window.location.reload();
+      // window.location.reload();
       console.log(res);
+      return Promise.resolve(res);
     } catch (error) {
-      alert(error);
       console.log(error);
+      return Promise.reject(error);
     }
   };
 
@@ -169,7 +174,7 @@ export const MyProfile = () => {
           </div>
           <div className="section-container">
             <div className="section-edit-profile">
-              <form onSubmit={updateAcc}>
+              <form onSubmit={updateAccountInfo} encType="multipart/form-data">
                 <div className="section-avatar column">
                   <div className="img-container">
                     <img
@@ -181,6 +186,24 @@ export const MyProfile = () => {
                     <Button
                       usageFor={"CHANGE AVATAR"}
                       buttonType={"login-btn"}
+                      // eslint-disable-next-line
+                      // style={{
+                      //   display: "block",
+                      //   widht: "120px",
+                      //   height: "30px",
+                      // }}
+                      // style="display:block;width:120px; height:30px;"
+                      onClick={getInput}
+                      type={"none"}
+                    />
+                    <input
+                      type="file"
+                      id="getFile"
+                      name="file"
+                      // eslint-disable-next-line
+                      style={{ display: "none" }}
+                      onChange={changeHandler}
+                      // style="display:none"
                     />
                   </div>
                 </div>
@@ -256,16 +279,6 @@ export const MyProfile = () => {
                   </div>
                 </div>
                 <div className="column"></div>
-              </form>
-              <form
-                onSubmit={handleSubmission}
-                id="dosadno"
-                enctype="multipart/form-data"
-              >
-                <input type="file" name="file" onChange={changeHandler} />
-                <div>
-                  <button type="submit">Submit</button>
-                </div>
               </form>
             </div>
           </div>

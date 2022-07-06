@@ -6,6 +6,7 @@ import App from "./components/App";
 import { Login } from "./components/Login";
 import { Register } from "./components/Register";
 import { MyProfile } from "./components/MyProfile";
+import { MyProfileMust } from "./components/MyProfileMust";
 import { MyRecipes } from "./components/MyRecipes";
 import { EditRecipe } from "./components/EditRecipe";
 
@@ -19,6 +20,7 @@ root.render(
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/myprofile" element={<MyProfile />} />
+      <Route path="/myprofileTEST" element={<MyProfileMust />} />
       <Route path="/myrecepies" element={<MyRecipes />} />
       <Route path="/myrecepies/:id" element={<EditRecipe />} />
     </Routes>

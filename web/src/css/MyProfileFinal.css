@@ -1,0 +1,61 @@
+.App .container .section-container .column{
+    display: flex;
+    flex-direction: column;
+    margin-right: 5px;
+}
+
+.App .container .section-container .column form button{
+    display: block;
+    width: 200px;
+    height: 35px;
+    padding: 5px;
+    font-weight: 100;
+    border-radius: 5px;
+}
+
+.App .container .section-container .one{
+    margin-right: 50px;
+}
+
+.App .container .section-container .two{
+    margin-right: 30px;
+}
+
+.App .container .section-container .two button{
+    width: 124px;
+    height: 40px;
+    margin-top: 30px;
+}
+
+.App .container .section-container .column img{
+    width: 150px;
+    height: 150px;
+}
+
+.App .container .section-container .column .img-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.App .container .section-container .column label{
+    color: #F0972A;
+    font-weight: bold;
+    margin: 0px 0px 10px 0px;
+}
+
+.App .container .section-container .column input{
+    height: 40px;
+    padding: 5px;
+    background-color: #F0EFEA;   
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.App .container .section-container .two{
+    flex: 0.25;
+}
+
+.App .container .section-container .three{
+    flex: 0.25;
+}

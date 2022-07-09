@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
-
+import swal from "sweetalert";
 import "../css/MyProfileFinal.css";
 
 export const MyProfileFinal = () => {
@@ -52,7 +52,11 @@ export const MyProfileFinal = () => {
       if (selectedFile) {
         image = await updateImage(e);
       }
-      await updateAcc(e, image);
+      let profile = await updateAcc(e, image);
+
+      if (profile) {
+        swal("Profile updated succesfully!");
+      }
     } catch (error) {
       console.log(error);
     }

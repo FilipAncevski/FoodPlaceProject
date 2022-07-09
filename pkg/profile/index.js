@@ -8,6 +8,7 @@ const Profile = mongoose.model(
     email: String,
     birthday: Date,
     password: String,
+    picture: String,
   },
   "profiles"
 );

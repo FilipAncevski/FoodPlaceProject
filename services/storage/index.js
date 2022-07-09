@@ -19,7 +19,6 @@ app.use(
   })
 );
 app.use(fileUpload());
-app.use(express.json());
 
 app.post("/api/v1/storage", upload);
 app.get("/api/v1/storage", listImages);

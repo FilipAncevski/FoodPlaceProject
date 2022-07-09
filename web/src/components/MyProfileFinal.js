@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import { Button } from "./Button";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
@@ -25,6 +27,8 @@ export const MyProfileFinal = () => {
   const [isSeleced, setIsSelected] = useState(false);
 
   const [repeatPW, setRepeatPW] = useState("********");
+
+  const navigate = useNavigate();
 
   const changeInput = (e) => {
     setAccInfo({
@@ -66,13 +70,23 @@ export const MyProfileFinal = () => {
   //     }
   //   };
 
+  const updateMyState = async (state, setState, image) => {
+    return setState({
+      ...state,
+      picture: image,
+    });
+  };
+
   const updateProfile = async (e) => {
     e.preventDefault();
 
     try {
-      const image = await updateImageAsync(e);
-      const profile = await updateAcc(e);
+      const image = await updateImage(e);
+      //   await updateMyState(accInfo, setAccInfo, image);
+      const profile = await updateAcc(e, image);
+
       console.log(profile);
+      console.log(image);
     } catch (error) {
       console.log(error);
     }
@@ -93,7 +107,7 @@ export const MyProfileFinal = () => {
       },
     })
       .then((res) => res.json())
-      .then((data) => setAccInfo({ ...accInfo, picture: data.file_name }))
+      .then((data) => data)
       .then((info) => console.log(accInfo, info))
       .catch((error) => console.log(error));
   };
@@ -115,19 +129,18 @@ export const MyProfileFinal = () => {
           // "content-type": "multipart/form-data",
         },
       });
-      let data = await res.json();
-      setAccInfo({
-        ...accInfo,
-        picture: data.file_name,
-      });
-      return Promise.resolve(data);
+      //   updateAcc(e);
+      const data = await res.json();
+      //   const data2 = { ...accInfo, picture: data.file_name };
+      //   setAccInfo(data2);
+      return Promise.resolve(data.file_name);
     } catch (error) {
       console.log(error);
       return Promise.reject(error);
     }
   };
 
-  const updateAcc = async (e) => {
+  const updateAcc = async (e, image) => {
     e.preventDefault(e);
 
     try {
@@ -142,13 +155,16 @@ export const MyProfileFinal = () => {
       }
       console.log(accInfo);
 
+      const data = { ...accInfo, picture: image };
+      console.log(data);
+
       const res = await fetch("/api/v1/auth/updateInfo", {
         method: "PUT",
         headers: {
           "content-type": "application/json",
           authorization: `bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify(accInfo),
+        body: JSON.stringify(data),
       });
       console.log(res);
       return Promise.resolve(res);
@@ -223,7 +239,8 @@ export const MyProfileFinal = () => {
                   />
                 ) : (
                   <img
-                    src={require(`../images/${accInfo.picture}`)}
+                    // src={require(`../images/${accInfo.picture}`)}
+                    src={require(`../images//${accInfo.picture}`)}
                     // src={
                     //   require(`../../../uploads/user_${accInfo._id}/${accInfo.picture}`)
                     //     .default

@@ -19,6 +19,10 @@ const register = async (req, res) => {
       };
     }
     req.body.password = bcrypt.hashSync(req.body.password);
+    req.body = {
+      ...req.body,
+      picture: "",
+    };
     let prof = await profile.createProfile(req.body);
     return res.status(201).send(prof);
   } catch (err) {

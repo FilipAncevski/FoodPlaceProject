@@ -5,13 +5,8 @@ const DATA_SIZE = 437500;
 const DATA_TYPE = ["image/jpeg", "image/png", "image/pjpeg", "image/gif"];
 
 const upload = async (req, res) => {
-  // console.log(req.body);
   // console.log(req.files);
-  // console.log(req.url);
-  // console.log(req.method);
-  // console.log(req.files);
-  // return res.status(200).send(req.files);
-  // // console.log(req.files.document);
+  // console.log(req);
   if (DATA_SIZE < req.files.File.size) {
     return res.status(400).send("File upload is too large");
   }
@@ -20,13 +15,13 @@ const upload = async (req, res) => {
     return res.status(404).send("File type is not supported");
   }
 
-  const userDir = `user_${req.user.id}`;
-  const userDirPath = `${__dirname}/../../../uploads/${userDir}`;
+  // const userDir = `user_${req.user.id}`;
+  const userDirPath = `${__dirname}/../../../web/src/images`;
 
   if (!fs.existsSync(userDirPath)) {
     fs.mkdirSync(userDirPath);
   }
-  const fileName = `${makeID(6)}_${req.files.File.name}`;
+  const fileName = `${req.user.email}${req.files.File.name}`;
   const filePath = `${userDirPath}/${fileName}`;
 
   req.files.File.mv(filePath, (err) => {
@@ -36,6 +31,32 @@ const upload = async (req, res) => {
     return res.status(201).send({ file_name: fileName });
   });
 };
+// const upload = async (req, res) => {
+//   console.log(req.files);
+//   if (DATA_SIZE < req.files.File.size) {
+//     return res.status(400).send("File upload is too large");
+//   }
+
+//   if (!DATA_TYPE.includes(req.files.File.mimetype)) {
+//     return res.status(404).send("File type is not supported");
+//   }
+
+//   const userDir = `user_${req.user.id}`;
+//   const userDirPath = `${__dirname}/../../../uploads/${userDir}`;
+
+//   if (!fs.existsSync(userDirPath)) {
+//     fs.mkdirSync(userDirPath);
+//   }
+//   const fileName = `${makeID(6)}_${req.files.File.name}`;
+//   const filePath = `${userDirPath}/${fileName}`;
+
+//   req.files.File.mv(filePath, (err) => {
+//     if (err) {
+//       return res.status(500).send("Internal Server Error");
+//     }
+//     return res.status(201).send({ file_name: fileName });
+//   });
+// };
 
 const download = async (req, res) => {
   let userDir = `user_${req.user.id}`;

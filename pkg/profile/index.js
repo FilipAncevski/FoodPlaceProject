@@ -19,7 +19,17 @@ const createProfile = async (acc) => {
 };
 
 const getProfileByID = async (id) => {
-  return await Profile.findById({ _id: id });
+  let profile = await Profile.findById({ _id: id });
+
+  let secureProfile = {
+    firstName: profile.firstName,
+    lastName: profile.lastName,
+    email: profile.email,
+    birthday: profile.birthday,
+    picture: profile.picture,
+  };
+
+  return secureProfile;
 };
 
 const getProfileByEmail = async (email) => {

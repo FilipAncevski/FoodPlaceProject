@@ -1,8 +1,4 @@
 import React, { useState, useEffect } from "react";
-
-import { useNavigate } from "react-router-dom";
-
-import { Button } from "./Button";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 
@@ -18,17 +14,13 @@ export const MyProfileFinal = () => {
     picture: "",
   };
 
-  const [image, setImage] = useState("");
-
   const [accInfo, setAccInfo] = useState(accoutInfo);
 
   const [selectedFile, setSelectedFile] = useState();
-
+  // eslint-disable-next-line
   const [isSeleced, setIsSelected] = useState(false);
 
   const [repeatPW, setRepeatPW] = useState("********");
-
-  const navigate = useNavigate();
 
   const changeInput = (e) => {
     setAccInfo({
@@ -51,69 +43,22 @@ export const MyProfileFinal = () => {
     document.getElementById("getFile").click();
   };
 
-  //   const getImage = async (e) => {
-  //     e.preventDefault();
-
-  //     try {
-  //       let res = await fetch(`/api/v1/storage/${accInfo.picture}`, {
-  //         method: "GET",
-  //         headers: {
-  //           //   "content-type": "application/json",
-  //           authorization: `bearer ${localStorage.getItem("token")}`,
-  //         },
-  //       });
-  //       let data = await res.json();
-  //       console.log(data);
-  //       return Promise.resolve(data);
-  //     } catch (error) {
-  //       return Promise.reject(error);
-  //     }
-  //   };
-
-  const updateMyState = async (state, setState, image) => {
-    return setState({
-      ...state,
-      picture: image,
-    });
-  };
-
   const updateProfile = async (e) => {
     e.preventDefault();
 
     try {
-      const image = await updateImage(e);
-      //   await updateMyState(accInfo, setAccInfo, image);
-      const profile = await updateAcc(e, image);
+      let image = accInfo.picture !== "" ? accInfo.picture : "";
 
-      console.log(profile);
-      console.log(image);
+      if (selectedFile) {
+        image = await updateImage(e);
+      }
+      await updateAcc(e, image);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const updateImageAsync = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-
-    formData.append("File", selectedFile);
-
-    fetch(`/api/v1/storage`, {
-      method: "POST",
-      body: formData,
-      headers: {
-        authorization: `bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => data)
-      .then((info) => console.log(accInfo, info))
-      .catch((error) => console.log(error));
-  };
-
   const updateImage = async (e) => {
-    // preventDefaultBehavior(e);
     e.preventDefault();
 
     const formData = new FormData();
@@ -126,13 +71,9 @@ export const MyProfileFinal = () => {
         body: formData,
         headers: {
           authorization: `bearer ${localStorage.getItem("token")}`,
-          // "content-type": "multipart/form-data",
         },
       });
-      //   updateAcc(e);
       const data = await res.json();
-      //   const data2 = { ...accInfo, picture: data.file_name };
-      //   setAccInfo(data2);
       return Promise.resolve(data.file_name);
     } catch (error) {
       console.log(error);
@@ -153,10 +94,9 @@ export const MyProfileFinal = () => {
         // eslint-disable-next-line
         throw "Password doesnt match, try again";
       }
-      console.log(accInfo);
-
       const data = { ...accInfo, picture: image };
-      console.log(data);
+
+      setAccInfo({ ...accInfo, picture: image });
 
       const res = await fetch("/api/v1/auth/updateInfo", {
         method: "PUT",
@@ -201,11 +141,10 @@ export const MyProfileFinal = () => {
       let data = await res.json();
       // console.log(data.birthday);
       data.birthday = getBirthday(data.birthday);
-      data.password = "********";
+      data.password = "";
       // console.log(data.birthday);
       //ne povlekuvaj pw
       setAccInfo(data);
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -213,7 +152,8 @@ export const MyProfileFinal = () => {
 
   useEffect(() => {
     getData();
-  }, [image]);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div className="App">
@@ -323,7 +263,6 @@ export const MyProfileFinal = () => {
               <label htmlFor="repeat-password">Repeat password</label>
               <input
                 placeholder="******"
-                value={repeatPW}
                 id="repeat-password"
                 type={"password"}
                 onChange={changeInputPW}

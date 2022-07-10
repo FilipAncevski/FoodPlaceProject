@@ -91,6 +91,14 @@ const updateAccount = async (req, res) => {
   try {
     await validate(req.body, Profile);
 
+    let prof = await profile.getProfileByEmail(req.body.email);
+
+    if (!bcrypt.compareSync(req.body.password, prof.password)) {
+      throw {
+        code: 400,
+        error: "Wrong password",
+      };
+    }
     req.body.password = bcrypt.hashSync(req.body.password);
 
     const acc = await profile.updateProfile(req.user.id, req.body);

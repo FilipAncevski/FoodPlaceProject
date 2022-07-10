@@ -54,8 +54,14 @@ export const MyProfileFinal = () => {
       }
       let profile = await updateAcc(e, image);
 
-      if (profile) {
-        swal("Profile updated succesfully!");
+      console.log(typeof profile.status);
+
+      if (profile.status === 500) {
+        swal("Wrong password, try again!");
+      }
+      if (profile.status === 200) {
+        swal("Good job!", "You clicked the button!", "success");
+        // swal("Profile updated succesfully!");
       }
     } catch (error) {
       console.log(error);
@@ -89,14 +95,10 @@ export const MyProfileFinal = () => {
     e.preventDefault(e);
 
     try {
-      if (accInfo.password === "********" && repeatPW === "********") {
-        // eslint-disable-next-line
-        throw "Please enter a valid password";
-      }
-
       if (accInfo.password !== repeatPW) {
+        swal("Wrong password, try again!");
         // eslint-disable-next-line
-        throw "Password doesnt match, try again";
+        // throw "Password doesnt match, try again";
       }
       const data = { ...accInfo, picture: image };
 

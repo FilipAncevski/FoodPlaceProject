@@ -40,8 +40,8 @@ const create = async (req, res) => {
     await validate(req.body, Kitchen);
     let data = {
       ...req.body,
-      createdOn: dateCreator(),
       user_id: req.user.id,
+      createdOn: dateCreator(),
     };
     let ps = await kitchen.createDish(data);
     return res.status(201).send(ps);

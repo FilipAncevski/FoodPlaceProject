@@ -15,13 +15,12 @@ const upload = async (req, res) => {
     return res.status(404).send("File type is not supported");
   }
 
-  // const userDir = `user_${req.user.id}`;
-  const userDirPath = `${__dirname}/../../../web/src/images`;
+  const userDirPath = `${__dirname}/../../../uploads`;
 
   if (!fs.existsSync(userDirPath)) {
     fs.mkdirSync(userDirPath);
   }
-  const fileName = `${req.user.email}${req.files.File.name}`;
+  const fileName = `${req.files.File.name}`;
   const filePath = `${userDirPath}/${fileName}`;
 
   req.files.File.mv(filePath, (err) => {
@@ -59,8 +58,8 @@ const upload = async (req, res) => {
 // };
 
 const download = async (req, res) => {
-  let userDir = `user_${req.user.id}`;
-  let userDirPath = `${__dirname}/../../../uploads/${userDir}`;
+  const userDirPath = `${__dirname}/../../../uploads`;
+
   let filePath = `${userDirPath}/${req.params.filename}`;
   if (!fs.existsSync(filePath)) {
     return res.status(404).send("File not foud");

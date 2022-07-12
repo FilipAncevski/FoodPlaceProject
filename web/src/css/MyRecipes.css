@@ -6,6 +6,14 @@
     flex: 12;
 }
 
+.App .container .back-container:hover{
+    cursor: pointer;
+}
+
+.App .container .section-container td:not(:last-child){
+    cursor: pointer;
+} 
+
 .section-container table{
     width: 100%;
     display: flex;
@@ -53,6 +61,10 @@
     flex: 7;
     justify-content: end;
     padding-right: 40px;
+}
+
+.flex-9 svg:hover {
+    cursor: pointer;
 }
 
 .section-container table tbody .flex-9 svg {

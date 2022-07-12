@@ -10,6 +10,8 @@ const Kitchen = mongoose.model(
     fabula: String,
     recipe: String,
     createdOn: Date,
+    user_id: String,
+    picture: String,
   },
   "kitchens"
 );

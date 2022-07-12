@@ -1,4 +1,4 @@
-const { get } = require("../../pkg/config");
+const config = require("../../pkg/config");
 const express = require("express");
 const fileUpload = require("express-fileupload");
 const jwt = require("express-jwt");
@@ -15,7 +15,9 @@ const app = express();
 app.use(
   jwt({
     algorithms: ["HS256"],
-    secret: get("security").jwt_key,
+    secret: config.get("security").jwt_key,
+  }).unless({
+    path: [/^\/api\/v1\/storage\/.*/],
   })
 );
 app.use(fileUpload());
@@ -26,7 +28,7 @@ app.get("/api/v1/storage/users", listUsers);
 app.get("/api/v1/storage/:filename", download);
 app.delete("/api/v1/storage/:filename", remove);
 
-app.listen(get("services").storage.port, (err) => {
+app.listen(config.get("services").storage.port, (err) => {
   if (err) return console.error(err);
-  console.log(`Server listening on ${get("services").storage.port}`);
+  console.log(`Server listening on ${config.get("services").storage.port}`);
 });

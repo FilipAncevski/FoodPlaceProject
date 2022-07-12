@@ -10,6 +10,7 @@ import { MyProfileMust } from "./components/MyProfileMust";
 import { MyProfileFinal } from "./components/MyProfileFinal";
 import { MyRecipes } from "./components/MyRecipes";
 import { EditRecipe } from "./components/EditRecipe";
+import { NewRecipe } from "./components/NewRecipe";
 
 import "./css/index.css";
 
@@ -25,6 +26,7 @@ root.render(
       <Route path="/myprofileFinal" element={<MyProfileFinal />} />
       <Route path="/myrecepies" element={<MyRecipes />} />
       <Route path="/myrecepies/:id" element={<EditRecipe />} />
+      <Route path="/newrecipe" element={<NewRecipe />} />
     </Routes>
   </Router>
 );

@@ -20,17 +20,11 @@ export const MyProfileFinal = () => {
   // eslint-disable-next-line
   const [isSeleced, setIsSelected] = useState(false);
 
-  const [repeatPW, setRepeatPW] = useState("********");
-
   const changeInput = (e) => {
     setAccInfo({
       ...accInfo,
       [e.target.name]: e.target.value,
     });
-  };
-
-  const changeInputPW = (e) => {
-    setRepeatPW(e.target.value);
   };
 
   const changeHandler = (e) => {
@@ -47,21 +41,78 @@ export const MyProfileFinal = () => {
     e.preventDefault();
 
     try {
-      let image = accInfo.picture !== "" ? accInfo.picture : "";
+      let res = await swal(
+        "Are you sure that you want to update your acount?",
+        {
+          buttons: {
+            cancel: "Cancel",
+            Yes: {
+              text: "Yes",
+              value: "accept",
+            },
+          },
+        }
+      ).then((value) => {
+        // so if napravi
+        // eslint-disable-next-line
+        switch (value) {
+          case "accept":
+            return swal("Please enter your password", {
+              content: {
+                element: "input",
+                attributes: {
+                  placeholder: "Enter your password",
+                  type: "password",
+                },
+              },
+            });
 
-      if (selectedFile) {
-        image = await updateImage(e);
+          case null:
+            return swal("Okey!");
+        }
+      });
+
+      if (selectedFile === undefined) {
+        let image = accInfo.picture;
+
+        let profile = await updateAcc(e, image, res);
+
+        if (profile.status === 500) {
+          // swal("Wrong password, try again!");
+          swal({
+            title: "Wrong password, try again!",
+            icon: "error",
+            button: "Close",
+          });
+        }
+        if (profile.status === 200) {
+          swal({
+            title: "Accoung updated!",
+            icon: "success",
+            button: "Close",
+          });
+        }
       }
-      let profile = await updateAcc(e, image);
 
-      console.log(typeof profile.status);
+      if (selectedFile !== undefined) {
+        let image = await updateImage(e);
+        let profile = await updateAcc(e, image, res);
 
-      if (profile.status === 500) {
-        swal("Wrong password, try again!");
-      }
-      if (profile.status === 200) {
-        swal("Good job!", "You clicked the button!", "success");
-        // swal("Profile updated succesfully!");
+        if (profile.status === 500) {
+          // swal("Wrong password, try again!");
+          swal({
+            title: "Wrong password, try again!",
+            icon: "error",
+            button: "Close",
+          });
+        }
+        if (profile.status === 200) {
+          swal({
+            title: "Accoung updated!",
+            icon: "success",
+            button: "Close",
+          });
+        }
       }
     } catch (error) {
       console.log(error);
@@ -91,16 +142,19 @@ export const MyProfileFinal = () => {
     }
   };
 
-  const updateAcc = async (e, image) => {
+  const updateAcc = async (e, image, password) => {
     e.preventDefault(e);
 
     try {
-      if (accInfo.password !== repeatPW) {
-        swal("Wrong password, try again!");
-        // eslint-disable-next-line
-        // throw "Password doesnt match, try again";
-      }
-      const data = { ...accInfo, picture: image };
+      // if (accInfo.password !== repeatPW) {
+      //   swal("Wrong password, try again!");
+      //   // eslint-disable-next-line
+      //   // throw "Password doesnt match, try again";
+      // }
+
+      let data = { ...accInfo, picture: image };
+
+      data = { ...data, password: password };
 
       setAccInfo({ ...accInfo, picture: image });
 
@@ -112,7 +166,6 @@ export const MyProfileFinal = () => {
         },
         body: JSON.stringify(data),
       });
-      console.log(res);
       return Promise.resolve(res);
     } catch (error) {
       console.log(error);
@@ -145,11 +198,7 @@ export const MyProfileFinal = () => {
         },
       });
       let data = await res.json();
-      // console.log(data.birthday);
       data.birthday = getBirthday(data.birthday);
-      data.password = "";
-      // console.log(data.birthday);
-      //ne povlekuvaj pw
       setAccInfo(data);
     } catch (error) {
       console.log(error);
@@ -186,12 +235,12 @@ export const MyProfileFinal = () => {
                 ) : (
                   <img
                     // src={require(`../images/${accInfo.picture}`)}
-                    src={require(`../images//${accInfo.picture}`)}
+                    // src={require(`../images/${accInfo.picture}`)}
                     // src={
                     //   require(`../../../uploads/user_${accInfo._id}/${accInfo.picture}`)
                     //     .default
                     // }
-                    // src={`/api/v1/storage/${accInfo.picture}`}
+                    src={`/api/v1/storage/${accInfo.picture}`}
                     alt="/"
                   />
                 )}
@@ -229,20 +278,12 @@ export const MyProfileFinal = () => {
               />
               <label htmlFor="email">Email</label>
               <input
+                disabled
                 placeholder={accInfo.email}
                 id="email"
                 name="email"
                 onChange={changeInput}
                 value={accInfo.email}
-              />
-              <label htmlFor="password">Password</label>
-              <input
-                placeholder="******"
-                id="password"
-                name="password"
-                onChange={changeInput}
-                type={"password"}
-                value={accInfo.password}
               />
               <button onClick={updateProfile}>Save</button>
             </div>
@@ -265,13 +306,6 @@ export const MyProfileFinal = () => {
                 max="2010-01-07"
                 min="1922-01-01"
                 value={accInfo.birthday}
-              />
-              <label htmlFor="repeat-password">Repeat password</label>
-              <input
-                placeholder="******"
-                id="repeat-password"
-                type={"password"}
-                onChange={changeInputPW}
               />
             </div>
           </div>

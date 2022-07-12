@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
@@ -9,17 +9,15 @@ import { BackIcon } from "./BackIcon";
 
 import "../css/EditRecipe.css";
 
-export const EditRecipe = () => {
+export const NewRecipe = () => {
   const recipe = {
     recipeTitle: "",
     category: "",
-    prepTime: 0,
+    prepTime: "In minutes please",
     pplFor: 0,
     fabula: "",
     recipe: "",
   };
-
-  const { id } = useParams();
 
   const [recipeInfo, setRecipeInfo] = useState(recipe);
   // eslint-disable-next-line
@@ -120,7 +118,7 @@ export const EditRecipe = () => {
       setRecipeInfo({ ...recipeInfo, picture: image });
 
       const res = await fetch("/api/v1/kitchen", {
-        method: "PUT",
+        method: "POST",
         headers: {
           "content-type": "application/json",
           authorization: `bearer ${localStorage.getItem("token")}`,
@@ -134,27 +132,9 @@ export const EditRecipe = () => {
     }
   };
 
-  const getRecipe = async (id) => {
-    try {
-      let res = await fetch(`/api/v1/kitchen/${id}`, {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          authorization: `bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      let data = await res.json();
-      setRecipeInfo(data);
-      console.log(data);
-    } catch (error) {
-      return console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getRecipe(id);
-    console.log(id);
-  }, []);
+  //   useEffect(() => {
+  //     console.log("Search: ", recipeInfo);
+  //   }, [recipeInfo]);
 
   return (
     <div className="App">

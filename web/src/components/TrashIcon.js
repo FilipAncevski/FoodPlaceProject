@@ -1,8 +1,9 @@
 import React from "react";
 
-export const TrashIcon = () => {
+export const TrashIcon = ({ trash }) => {
   return (
     <svg
+      onClick={trash}
       id="trash"
       xmlns="http://www.w3.org/2000/svg"
       width="16.656"

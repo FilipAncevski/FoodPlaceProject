@@ -21,9 +21,9 @@ root.render(
       <Route path="/" element={<App />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/myprofile" element={<MyProfile />} />
-      <Route path="/myprofileTEST" element={<MyProfileMust />} />
-      <Route path="/myprofileFinal" element={<MyProfileFinal />} />
+      {/* <Route path="/myprofile" element={<MyProfile />} /> */}
+      {/* <Route path="/myprofileTEST" element={<MyProfileMust />} /> */}
+      <Route path="/myprofile" element={<MyProfileFinal />} />
       <Route path="/myrecepies" element={<MyRecipes />} />
       <Route path="/myrecepies/:id" element={<EditRecipe />} />
       <Route path="/newrecipe" element={<NewRecipe />} />

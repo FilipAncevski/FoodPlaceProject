@@ -8,7 +8,6 @@ import { Button } from "./Button";
 import { BackIcon } from "./BackIcon";
 
 import "../css/EditRecipe.css";
-import { get } from "mongoose";
 
 export const EditRecipe = () => {
   const recipe = {
@@ -186,6 +185,7 @@ export const EditRecipe = () => {
 
   useEffect(() => {
     getRecipe(id);
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -206,26 +206,27 @@ export const EditRecipe = () => {
           </div>
           <div className="section-container">
             <div className="column">
-              <div className="img-container">
+              <label>Recipe Image</label>
+              <div className="img-container newrecipe">
                 <img src={`/api/v1/storage/${recipeInfo.picture}`} alt="/" />
               </div>
               <form encType="multipart/form-data">
                 <div className="btn-container">
                   <button
                     // eslint-disable-next-line
-                    style={{
-                      display: "block",
-                      widht: "120px",
-                      height: "30px",
-                    }}
+                    // style={{
+                    //   display: "block",
+                    //   widht: "120px",
+                    //   height: "30px",
+                    // }}
                     onClick={getInput}
                   >
-                    Your text here
+                    UPLOAD IMAGE
                   </button>
                   <input
                     type="file"
                     id="getFile"
-                    style={{ display: "none" }}
+                    // style={{ display: "none" }}
                     onChange={changeHandler}
                     required
                   />

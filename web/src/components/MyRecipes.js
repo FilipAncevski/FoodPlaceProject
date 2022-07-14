@@ -131,7 +131,7 @@ export const MyRecipes = () => {
                           onClick={() => editRecipe(recipe._id)}
                         >
                           <Button
-                            buttonType={"register-btn"}
+                            buttonType={"register-btn myrecipies"}
                             usageFor={"BRUNCH"}
                           />
                         </td>

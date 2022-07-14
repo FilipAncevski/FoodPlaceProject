@@ -41,23 +41,15 @@
 }
 
 .container .section-container  .column:first-child{
-    flex: 0.5;
+    flex: 0.44;
 }
 
 .App .container .section-container  .theOne{
     flex: 0.2;
 }
 
-.container .section-container  .column:first-child .btn-container{
-    width: 100px;
-    position: relative;
-    top: 20px;
-    left: 35px;
-}
-
 .container .section-container  .column:first-child .btn-container button{
-    width: 174px;
-    height: 32px;
+    width: 233px;
     padding: 5px;
     font-weight: 100;
     margin-top: 30px;
@@ -69,6 +61,11 @@
     position: relative;
     top: 10px;
     left: 60px;
+}
+
+.App .container .section-container  .column:first-child .newrecipe {
+    width: 234px;
+    height: 147px;
 }
 
 .container .section-container  .column:nth-child(2) div{
@@ -87,6 +84,8 @@
     background-color: #F0EFEA; 
     width: 90%;
     padding: 5px;
+    color: #A5A5A5;
+    border: 1px solid #A5A5A5;
 }
 
 .container .section-container  .column:nth-child(2) div{
@@ -117,6 +116,11 @@
 .container .section-container  .column:nth-child(2) .category-prep-time-no-ppl div{
     flex: 0.8;
     margin: 0px 5px;
+}
+
+.container .section-container textarea{
+    color: #A5A5A5;
+    border: 1px solid #A5A5A5;
 }
 
 .container .section-container  .column:nth-child(2) .short-description textarea{
@@ -157,10 +161,3 @@
     background-color: #F0972A;
 }
 
-.container .section-container .column form .btn-container .new-recipe-button {
-    margin-top: 0px;
-    display: block;
-    height: 30px;
-    width: 120px;
-
-}

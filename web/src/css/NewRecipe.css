@@ -1,0 +1,9 @@
+.App .container .section-container .column .newrecipe {
+    position: inherit;
+}
+
+.App .container .section-container .column .newrecipe img {
+    border-radius: 5px;
+    height: inherit;
+    width: inherit;
+}

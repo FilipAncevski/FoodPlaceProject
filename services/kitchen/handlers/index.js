@@ -91,6 +91,15 @@ const remove = async (req, res) => {
   }
 };
 
+const getAllRecipies = async (req, res) => {
+  try {
+    let recipies = await kitchen.getAllRecipies();
+    return res.status(200).send(recipies);
+  } catch (error) {
+    return res.status(error.code).send(error.error);
+  }
+};
+
 module.exports = {
   getAll,
   getSingle,
@@ -98,4 +107,5 @@ module.exports = {
   update,
   updatePartial,
   remove,
+  getAllRecipies,
 };

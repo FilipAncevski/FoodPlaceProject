@@ -68,12 +68,9 @@ export const MyRecipes = () => {
       });
       let data = await res.json();
       data.map((recipe) => {
-        console.log(recipe);
-        recipe.createdOn = getDate(recipe.createdOn);
-        console.log(recipe);
+        return (recipe.createdOn = getDate(recipe.createdOn));
       });
       setRecipies(data);
-      console.log(recipies);
     } catch (error) {
       console.log(error);
     }

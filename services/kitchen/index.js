@@ -7,6 +7,7 @@ const {
   remove,
   update,
   updatePartial,
+  getAllRecipies,
 } = require("./handlers");
 const express = require("express");
 const jwt = require("express-jwt");
@@ -23,6 +24,7 @@ api.use(
 );
 
 api.get("/api/v1/kitchen", getAll);
+api.get("/api/v1/kitchen/recepies", getAllRecipies);
 api.get("/api/v1/kitchen/:id", getSingle);
 api.post("/api/v1/kitchen", create);
 api.delete("/api/v1/kitchen/:id", remove);

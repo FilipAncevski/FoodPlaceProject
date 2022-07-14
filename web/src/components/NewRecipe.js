@@ -42,11 +42,17 @@ export const NewRecipe = () => {
     });
   };
 
+  const countWords = (str) => {
+    const arr = str.split(" ");
+
+    return arr.filter((word) => word !== "").length;
+  };
+
   const changeHandler = (e) => {
     setSelectedFile(e.target.files[0]);
     setPicturePreview(URL.createObjectURL(e.target.files[0]));
-    console.log(selectedFile);
     setIsSelected(true);
+    console.log(selectedFile);
   };
 
   const cancelRecipe = (e) => {
@@ -57,9 +63,24 @@ export const NewRecipe = () => {
   const createRecipe = async (e) => {
     e.preventDefault();
 
+    const DATA_TYPE = ["image/jpeg", "image/png", "image/pjpeg", "image/gif"];
+
     try {
       if (!selectedFile) {
         return alert("Please choose a picture for the recipe");
+      }
+
+      if (selectedFile.size > 437500) {
+        return alert("File upload is too large");
+      }
+
+      if (!DATA_TYPE.includes(selectedFile.type)) {
+        return alert("File type isnt supported");
+      }
+
+      if (1 > 0) {
+        console.log(selectedFile);
+        console.log(selectedFile.size);
       }
 
       if (isNaN(recipeInfo.pplFor) || isNaN(recipeInfo.prepTime)) {
@@ -70,18 +91,32 @@ export const NewRecipe = () => {
         recipeInfo.recipeTitle === "" ||
         recipeInfo.category === "" ||
         recipeInfo.prepTime === "In minutes please" ||
-        recipeInfo.pplFor === 0 ||
+        recipeInfo.prepTime === "" ||
+        recipeInfo.pplFor === "" ||
         recipeInfo.fabula === "" ||
         recipeInfo.recipe === ""
       ) {
         return alert("Please fill in the inputs");
       }
 
+      if (countWords(recipeInfo.fabula) > 40) {
+        console.log(countWords(recipeInfo.fabula));
+        return alert(
+          `Short Description exceeded max word count by ${
+            countWords(recipeInfo.fabula) - 40
+          }`
+        );
+      }
+
+      if (countWords(recipeInfo.recipe) > 150) {
+        return alert("Short Description exceeded max word count");
+      }
+
       let image = await recipeImage(e);
-      let profile = await recipeText(e, image);
       console.log(image);
-      console.log(profile);
+      await recipeText(e, image);
       navigate("/myrecepies");
+      return Promise.resolve(image);
     } catch (error) {
       console.log(error);
     }
@@ -142,8 +177,8 @@ export const NewRecipe = () => {
   };
 
   useEffect(() => {
-    console.log(picturePreview);
-  }, [picturePreview]);
+    console.log(selectedFile);
+  }, [selectedFile]);
 
   return (
     <div className="App">
@@ -200,7 +235,6 @@ export const NewRecipe = () => {
                   name="recipeTitle"
                   onChange={onChangeRecipe}
                   value={recipeInfo.recipeTitle}
-                  required
                 />
               </div>
               <div className="category-prep-time-no-ppl">
@@ -211,7 +245,6 @@ export const NewRecipe = () => {
                     id="category"
                     name="category"
                     value={recipeInfo.category}
-                    required
                   >
                     <option value="">Choose an option</option>
                     <option value="breakfast">Breakfast</option>
@@ -229,7 +262,6 @@ export const NewRecipe = () => {
                     name="prepTime"
                     onChange={onChangeRecipe}
                     value={recipeInfo.prepTime}
-                    required
                   />
                 </div>
                 <div>
@@ -241,20 +273,18 @@ export const NewRecipe = () => {
                     name="pplFor"
                     onChange={onChangeRecipe}
                     value={recipeInfo.pplFor}
-                    required
                   />
                 </div>
               </div>
               <div className="short-description">
                 <label htmlFor="fabula">Short Description</label>
                 <textarea
-                  placeholder="Lorem ipsum itn int fhasfoiasjhfoipasjfajfasoifioasjfdoiasjhfoiasfiohasfohasfhasoifhasoifhaosihfaoisfhaosihfaoihfaiohfaoishfoiashfouiashfoiashfoiashfoiashfoiashfoiashfoiashfoiuashfio"
+                  placeholder="Please explain the recipe shortly."
                   type={"text"}
                   id="fabula"
                   name="fabula"
                   onChange={onChangeRecipe}
                   value={recipeInfo.fabula}
-                  required
                 />
               </div>
               <div className="form-btn-recipe" onClick={createRecipe}>
@@ -264,13 +294,12 @@ export const NewRecipe = () => {
             <div className="column">
               <label htmlFor="recipe">Recipe</label>
               <textarea
-                placeholder="Lorem ipsun itn "
+                placeholder="Here your can explain the whole recipe."
                 id="recipe"
                 name="recipe"
                 type={"text"}
                 onChange={onChangeRecipe}
                 value={recipeInfo.recipe}
-                required
               />
             </div>
           </div>

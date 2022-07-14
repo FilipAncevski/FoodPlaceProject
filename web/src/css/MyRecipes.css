@@ -12,6 +12,10 @@
 
 .App .container .section-container td:not(:last-child){
     cursor: pointer;
+}
+
+.App .container .section-container td:first-child{
+    font-weight: bold;
 } 
 
 .section-container table{
@@ -30,9 +34,8 @@
     margin-bottom: 15px;
 }
 
-
 .section-container table thead .flex-1 {
-    flex: 1.5;
+    flex: 1.65;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,7 +57,7 @@
 }
 
 .section-container table tbody .flex-1 {
-    flex: 1.5;
+    flex: 1.65;
 }
 
 .section-container table tbody .flex-9 {
@@ -91,4 +94,12 @@
 
 .section-container table tbody td{
     margin: 3px 0px;
+}
+
+.section-container tr .flex-1 .myrecipies{
+    padding: 0px;
+    width: 100px;
+    height: 25px;
+    font-size: 12px;
+    font-weight: 400;
 }

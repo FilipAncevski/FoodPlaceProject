@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -8,6 +8,7 @@ import { Button } from "./Button";
 import { BackIcon } from "./BackIcon";
 
 import "../css/EditRecipe.css";
+import "../css/NewRecipe.css";
 
 export const NewRecipe = () => {
   const recipe = {
@@ -25,6 +26,8 @@ export const NewRecipe = () => {
   // eslint-disable-next-line
   const [isSeleced, setIsSelected] = useState(false);
 
+  const [picturePreview, setPicturePreview] = useState();
+
   const navigate = useNavigate();
 
   const getInput = (e) => {
@@ -41,6 +44,8 @@ export const NewRecipe = () => {
 
   const changeHandler = (e) => {
     setSelectedFile(e.target.files[0]);
+    setPicturePreview(URL.createObjectURL(e.target.files[0]));
+    console.log(selectedFile);
     setIsSelected(true);
   };
 
@@ -136,9 +141,9 @@ export const NewRecipe = () => {
     }
   };
 
-  //   useEffect(() => {
-  //     console.log("Search: ", recipeInfo);
-  //   }, [recipeInfo]);
+  useEffect(() => {
+    console.log(picturePreview);
+  }, [picturePreview]);
 
   return (
     <div className="App">
@@ -158,24 +163,27 @@ export const NewRecipe = () => {
           </div>
           <div className="section-container">
             <div className="column">
+              <label>Recipe Image</label>
+              <div className="img-container newrecipe">
+                {selectedFile === undefined ? (
+                  <img
+                    src={
+                      "https://images.unsplash.com/photo-1628840042765-356cda07504e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+                    }
+                    alt=""
+                  />
+                ) : (
+                  <img src={`${picturePreview}`} alt="Doesnt work" />
+                )}
+              </div>
               <form encType="multipart/form-data">
                 <div className="btn-container">
-                  <button
-                    className="new-recipe-button"
-                    // eslint-disable-next-line
-                    style={{
-                      display: "block",
-                      widht: "120px",
-                      height: "30px",
-                    }}
-                    onClick={getInput}
-                  >
+                  <button className="new-recipe-button" onClick={getInput}>
                     UPLOAD IMAGE
                   </button>
                   <input
                     type="file"
                     id="getFile"
-                    style={{ display: "none" }}
                     onChange={changeHandler}
                     required
                   />

@@ -186,13 +186,6 @@ export const MyProfile = () => {
                     <Button
                       usageFor={"CHANGE AVATAR"}
                       buttonType={"login-btn"}
-                      // eslint-disable-next-line
-                      // style={{
-                      //   display: "block",
-                      //   widht: "120px",
-                      //   height: "30px",
-                      // }}
-                      // style="display:block;width:120px; height:30px;"
                       onClick={getInput}
                       type={"none"}
                     />

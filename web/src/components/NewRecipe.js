@@ -57,6 +57,10 @@ export const NewRecipe = () => {
         return alert("Please choose a picture for the recipe");
       }
 
+      if (isNaN(recipeInfo.pplFor) || isNaN(recipeInfo.prepTime)) {
+        return alert("For Prep. Time and No. People please enter numbers");
+      }
+
       if (
         recipeInfo.recipeTitle === "" ||
         recipeInfo.category === "" ||
@@ -157,6 +161,7 @@ export const NewRecipe = () => {
               <form encType="multipart/form-data">
                 <div className="btn-container">
                   <button
+                    className="new-recipe-button"
                     // eslint-disable-next-line
                     style={{
                       display: "block",
@@ -165,7 +170,7 @@ export const NewRecipe = () => {
                     }}
                     onClick={getInput}
                   >
-                    Your text here
+                    UPLOAD IMAGE
                   </button>
                   <input
                     type="file"
@@ -210,7 +215,7 @@ export const NewRecipe = () => {
                 <div>
                   <label htmlFor="prepTime">Preparaton Time</label>
                   <input
-                    placeholder="How long does it take?"
+                    placeholder="In minutes please?"
                     type={"text"}
                     id="prepTime"
                     name="prepTime"

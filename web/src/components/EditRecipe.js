@@ -8,6 +8,7 @@ import { Button } from "./Button";
 import { BackIcon } from "./BackIcon";
 
 import "../css/EditRecipe.css";
+import { get } from "mongoose";
 
 export const EditRecipe = () => {
   const recipe = {
@@ -17,6 +18,7 @@ export const EditRecipe = () => {
     pplFor: 0,
     fabula: "",
     recipe: "",
+    picture: "",
   };
 
   const { id } = useParams();
@@ -51,23 +53,50 @@ export const EditRecipe = () => {
     navigate("/myrecepies");
   };
 
-  const createRecipe = async (e) => {
+  const trimData = (object) => {
+    return Object.keys(object).map(
+      (k) =>
+        (object[k] =
+          typeof object[k] == "string" ? object[k].trim() : object[k])
+    );
+  };
+
+  const updateRecipe = async (e) => {
     e.preventDefault();
 
     try {
-      if (!selectedFile) {
-        return alert("Please choose a picture for the recipe");
+      if (isNaN(recipeInfo.pplFor) || isNaN(recipeInfo.prepTime)) {
+        return alert("For Prep. Time and No. People please enter numbers");
+      }
+
+      if (
+        recipeInfo.recipeTitle === null ||
+        recipeInfo.category === null ||
+        recipeInfo.prepTime === null ||
+        recipeInfo.pplFor === null ||
+        recipeInfo.fabula === null ||
+        recipeInfo.recipe === null
+      ) {
+        return alert("Please fill in the inputs");
       }
 
       if (
         recipeInfo.recipeTitle === "" ||
         recipeInfo.category === "" ||
-        recipeInfo.prepTime === "In minutes please" ||
-        recipeInfo.pplFor === 0 ||
+        recipeInfo.prepTime === "" ||
+        recipeInfo.pplFor === "" ||
         recipeInfo.fabula === "" ||
         recipeInfo.recipe === ""
       ) {
         return alert("Please fill in the inputs");
+      }
+
+      if (!selectedFile) {
+        let image = recipeInfo.picture;
+        let profile = await recipeText(e, image);
+        console.log(profile);
+        navigate("/myrecepies");
+        return profile;
       }
 
       let image = await recipeImage(e);
@@ -115,11 +144,13 @@ export const EditRecipe = () => {
         pplFor: parseInt(recipeInfo.pplFor),
       };
 
+      trimData(data);
+
       console.log(data);
 
       setRecipeInfo({ ...recipeInfo, picture: image });
 
-      const res = await fetch("/api/v1/kitchen", {
+      const res = await fetch(`/api/v1/kitchen/${recipeInfo._id}`, {
         method: "PUT",
         headers: {
           "content-type": "application/json",
@@ -144,8 +175,10 @@ export const EditRecipe = () => {
         },
       });
       let data = await res.json();
+      console.log(data);
       setRecipeInfo(data);
       console.log(data);
+      console.log(recipeInfo);
     } catch (error) {
       return console.log(error);
     }
@@ -153,7 +186,6 @@ export const EditRecipe = () => {
 
   useEffect(() => {
     getRecipe(id);
-    console.log(id);
   }, []);
 
   return (
@@ -174,6 +206,9 @@ export const EditRecipe = () => {
           </div>
           <div className="section-container">
             <div className="column">
+              <div className="img-container">
+                <img src={`/api/v1/storage/${recipeInfo.picture}`} alt="/" />
+              </div>
               <form encType="multipart/form-data">
                 <div className="btn-container">
                   <button
@@ -264,7 +299,7 @@ export const EditRecipe = () => {
                   required
                 />
               </div>
-              <div className="form-btn-recipe" onClick={createRecipe}>
+              <div className="form-btn-recipe" onClick={updateRecipe}>
                 <Button usageFor={"SAVE"} buttonType={"register-btn"} />
               </div>
             </div>

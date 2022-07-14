@@ -23,7 +23,7 @@ app.use(
 app.use(fileUpload());
 
 app.post("/api/v1/storage", upload);
-app.get("/api/v1/storage", listImages);
+// app.get("/api/v1/storage", listImages);
 app.get("/api/v1/storage/users", listUsers);
 app.get("/api/v1/storage/:filename", download);
 app.delete("/api/v1/storage/:filename", remove);

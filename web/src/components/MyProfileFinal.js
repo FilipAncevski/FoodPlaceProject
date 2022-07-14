@@ -68,12 +68,19 @@ export const MyProfileFinal = () => {
             });
 
           case null:
-            return swal("Okey!");
+            return swal("Canceled!");
         }
       });
-
+      console.log(res);
       if (selectedFile === undefined) {
         let image = accInfo.picture;
+
+        if (res === true) {
+          return swal({
+            title: "Nothing was changed",
+            button: "Close",
+          });
+        }
 
         let profile = await updateAcc(e, image, res);
 
@@ -95,6 +102,12 @@ export const MyProfileFinal = () => {
       }
 
       if (selectedFile !== undefined) {
+        if (res === true) {
+          return swal({
+            title: "Nothing was changed",
+            button: "Close",
+          });
+        }
         let image = await updateImage(e);
         let profile = await updateAcc(e, image, res);
 
@@ -225,7 +238,7 @@ export const MyProfileFinal = () => {
             <div className="line-container"></div>
           </div>
           <div className="section-container">
-            <div className="column one">
+            <div className="column one theOne">
               <div className="img-container">
                 {accInfo.picture === "" ? (
                   <img
@@ -256,7 +269,7 @@ export const MyProfileFinal = () => {
                     // }}
                     onClick={getInput}
                   >
-                    Your text here
+                    CHANGE AVATAR
                   </button>
                   <input
                     type="file"
@@ -267,7 +280,7 @@ export const MyProfileFinal = () => {
                 </div>
               </form>
             </div>
-            <div className="column two">
+            <div className="column two myprof">
               <label htmlFor="firstName">First Name</label>
               <input
                 // placeholder={accInfo.firstName}
@@ -285,9 +298,9 @@ export const MyProfileFinal = () => {
                 onChange={changeInput}
                 value={accInfo.email}
               />
-              <button onClick={updateProfile}>Save</button>
+              <button onClick={updateProfile}>SAVE</button>
             </div>
-            <div className="column three">
+            <div className="column three myprof">
               <label htmlFor="lastName">Last Name</label>
               <input
                 placeholder={accInfo.lastName}

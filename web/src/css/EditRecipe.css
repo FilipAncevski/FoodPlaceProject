@@ -26,33 +26,49 @@
 .container .section-container  .column:first-child img{
     height: 150px;
     width: 250px;
-    border-radius: 4px;
+    border-radius: 50%;
+    box-shadow: 0px 3px 6px #00000029;
+    width: 133px;
+    height: 133px;
 }
 
 .container .section-container  .column{
     flex: 1;
 }
 
+.App .container .section-container   .myprof{
+    flex: 0.25;
+}
+
 .container .section-container  .column:first-child{
     flex: 0.5;
 }
 
+.App .container .section-container  .theOne{
+    flex: 0.2;
+}
+
 .container .section-container  .column:first-child .btn-container{
+    width: 100px;
     position: relative;
-    /* left: 15px; */
-    top: 20px
+    top: 20px;
+    left: 35px;
 }
 
 .container .section-container  .column:first-child .btn-container button{
-    width: 250px;
-    height: 35px;
+    width: 174px;
+    height: 32px;
     padding: 5px;
     font-weight: 100;
+    margin-top: 30px;
+    border: 1px solid #A5A5A5;
+    color: #A5A5A5;
 }
 
 .container .section-container  .column:first-child .img-container {
     position: relative;
     top: 10px;
+    left: 60px;
 }
 
 .container .section-container  .column:nth-child(2) div{
@@ -141,3 +157,10 @@
     background-color: #F0972A;
 }
 
+.container .section-container .column form .btn-container .new-recipe-button {
+    margin-top: 0px;
+    display: block;
+    height: 30px;
+    width: 120px;
+
+}

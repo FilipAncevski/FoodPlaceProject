@@ -24,6 +24,21 @@ export const MyRecipes = () => {
     navigate(`/myrecepies/${id}`);
   };
 
+  const getDate = (dateInput) => {
+    let date = new Date(dateInput);
+    let day = date.getDate();
+    if (day <= 9) {
+      day = `0${day}`;
+    }
+    let month = date.getMonth() + 1;
+    if (month <= 9) {
+      month = `0${month}`;
+    }
+    let year = date.getFullYear();
+    let yyyyMmDd = `${day}.${month}.${year}`;
+    return yyyyMmDd;
+  };
+
   const deleteRecipe = async (e, id) => {
     e.preventDefault();
 
@@ -52,6 +67,11 @@ export const MyRecipes = () => {
         },
       });
       let data = await res.json();
+      data.map((recipe) => {
+        console.log(recipe);
+        recipe.createdOn = getDate(recipe.createdOn);
+        console.log(recipe);
+      });
       setRecipies(data);
       console.log(recipies);
     } catch (error) {
@@ -119,7 +139,7 @@ export const MyRecipes = () => {
                           className="flex-1"
                           onClick={() => editRecipe(recipe._id)}
                         >
-                          22.11.2020
+                          {recipe.createdOn}
                         </td>
                         <td
                           className="flex-9"

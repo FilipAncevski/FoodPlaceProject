@@ -67,18 +67,18 @@ const download = async (req, res) => {
   res.download(filePath);
 };
 
-const listImages = async (req, res) => {
-  try {
-    let userDir = `user_${req.user.id}`;
-    let userDirPath = `${__dirname}/../../../uploads`;
-    let filePath = `${userDirPath}/${userDir}`;
-    const files = fs.readdirSync(filePath);
-    return res.status(200).send(files);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send("Internal Server Error");
-  }
-};
+// const listImages = async (req, res) => {
+//   try {
+//     let userDir = `user_${req.user.id}`;
+//     let userDirPath = `${__dirname}/../../../uploads`;
+//     let filePath = `${userDirPath}/${userDir}`;
+//     const files = fs.readdirSync(filePath);
+//     return res.status(200).send(files);
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).send("Internal Server Error");
+//   }
+// };
 
 const listUsers = async (req, res) => {
   try {
@@ -110,7 +110,7 @@ const remove = async (req, res) => {
 module.exports = {
   upload,
   download,
-  listImages,
+  // listImages,
   remove,
   listUsers,
 };

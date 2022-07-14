@@ -37,10 +37,16 @@ const remove = async (id) => {
   return await Kitchen.findByIdAndDelete({ _id: id });
 };
 
+const getAllRecipies = async () => {
+  let data = await Kitchen.find({});
+  return data;
+};
+
 module.exports = {
   createDish,
   update,
   getAll,
   getSingle,
   remove,
+  getAllRecipies,
 };

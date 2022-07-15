@@ -14,8 +14,8 @@ export const NewRecipe = () => {
   const recipe = {
     recipeTitle: "",
     category: "",
-    prepTime: "In minutes please",
-    pplFor: 0,
+    prepTime: "",
+    pplFor: "",
     fabula: "",
     recipe: "",
   };

@@ -27,7 +27,6 @@ export const MainPage = () => {
 
   useEffect(() => {
     getData();
-    console.log(test);
   }, []);
 
   return (

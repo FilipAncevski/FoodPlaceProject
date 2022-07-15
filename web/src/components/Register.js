@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -13,15 +13,59 @@ export const Register = () => {
     firstName: "",
     lastName: "",
     email: "",
-    birthday: Date,
+    birthday: "",
     password: "",
   };
 
   const [newAccForm, setNewAccForm] = useState(newAccInfo);
 
+  const [dataErrors, setDataErrors] = useState({});
+
+  const [isSubmit, setIsSubmit] = useState(false);
+
   const [repeatPassword, setRepeatPassword] = useState("");
 
   const navigate = useNavigate();
+
+  const validate = (values) => {
+    const errors = {};
+
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+    if (!values.firstName) {
+      errors.firstName =
+        "Username is required to be betweend 3 and 20 letters.";
+    }
+
+    if (!values.lastName) {
+      errors.lastName = "Lastname is required to be betweend 3 and 20 letters.";
+    }
+
+    if (!values.email) {
+      errors.email = "Email is required!";
+    } else if (!regex.test(values.email)) {
+      errors.email = "Please enter a valid email format!";
+    }
+
+    if (values.birthday === false) {
+      errors.birthday = "Birthday is required";
+    }
+    console.log(!values.birthday === false);
+    // else if (values.birthday.getFullYear() >= 2011) {
+    //   errors.birthday =
+    //     "Your must be at least 12 years old to register on our site";
+    // }
+
+    if (!values.password) {
+      errors.password = "Password is required";
+    } else if (values.password.length < 4) {
+      errors.password = "Password must be more than 4 characters";
+    } else if (values.password.length > 10) {
+      errors.password = "Password cannot exceed more than 10 characters";
+    }
+
+    return errors;
+  };
 
   const repeatPasswordChange = (e) => {
     setRepeatPassword(e.target.value);
@@ -40,29 +84,61 @@ export const Register = () => {
     try {
       newAccForm.birthday = new Date(newAccForm.birthday);
 
-      if (newAccForm.birthday.getFullYear() >= 2011) {
-        // eslint-disable-next-line
-        throw "Your must be at least 12 years old to register on our site";
+      setDataErrors(validate(newAccForm));
+
+      setIsSubmit(true);
+
+      console.log(newAccForm.birthday);
+
+      const check = validate(newAccForm);
+
+      if (Object.keys(check).length === 0) {
+        const res = await fetch("/api/v1/auth/register", {
+          method: "POST",
+          body: JSON.stringify(newAccForm),
+          headers: {
+            "content-type": "application/json",
+          },
+        });
+        const data = await res.json();
+        navigate("/login");
+        return Promise.resolve(data);
       }
+      // if (newAccForm.birthday.getFullYear() >= 2011) {
+      //   // eslint-disable-next-line
+      //   throw "Your must be at least 12 years old to register on our site";
+      // }
 
-      if (newAccForm.password.toString() !== repeatPassword.toString()) {
-        // eslint-disable-next-line
-        throw "Your password doesnt match, try again";
-      }
+      // if (newAccForm.password.toString() !== repeatPassword.toString()) {
+      //   // eslint-disable-next-line
+      //   throw "Your password doesnt match, try again";
+      // }
 
-      await fetch("/api/v1/auth/register", {
-        method: "POST",
-        body: JSON.stringify(newAccForm),
-        headers: {
-          "content-type": "application/json",
-        },
-      });
+      // if (Object.keys(dataErrors).length === 0) {
 
-      navigate("/login");
+      //   const res = await fetch("/api/v1/auth/register", {
+      //     method: "POST",
+      //     body: JSON.stringify(newAccForm),
+      //     headers: {
+      //       "content-type": "application/json",
+      //     },
+      //   });
+      //   const data = await res.json();
+      //   if (res.status === 201) {
+      //     navigate("/login");
+      //   }
+
+      //   console.log(data);
+      // }
     } catch (error) {
       alert(error);
     }
   };
+
+  useEffect(() => {
+    console.log(Object.keys(dataErrors).length);
+    console.log(dataErrors);
+  }, [dataErrors]);
 
   return (
     <div className="App">
@@ -107,6 +183,7 @@ export const Register = () => {
                       name="firstName"
                       onChange={inputChange}
                     />
+                    <span className="errors">{dataErrors.firstName}</span>
                   </div>
                   <div className="login-form">
                     <label htmlFor="lastName">Last Name</label>
@@ -116,6 +193,7 @@ export const Register = () => {
                       name="lastName"
                       onChange={inputChange}
                     />
+                    <span className="errors">{dataErrors.lastName}</span>
                   </div>
                 </div>
                 <div className="row 2">
@@ -127,6 +205,7 @@ export const Register = () => {
                       name="email"
                       onChange={inputChange}
                     />
+                    <span className="errors">{dataErrors.email}</span>
                   </div>
                   <div className="login-form">
                     <label htmlFor="birthday">Birthday</label>
@@ -137,6 +216,7 @@ export const Register = () => {
                       type="date"
                       onChange={inputChange}
                     />
+                    <span className="errors">{dataErrors.birthday}</span>
                   </div>
                 </div>
                 <div className="row 3">
@@ -149,6 +229,7 @@ export const Register = () => {
                       type={"password"}
                       onChange={inputChange}
                     />
+                    <span className="errors">{dataErrors.password}</span>
                   </div>
                   <div className="login-form">
                     <label htmlFor="repeat-password">Repeat password</label>
@@ -158,6 +239,7 @@ export const Register = () => {
                       type={"password"}
                       onChange={repeatPasswordChange}
                     />
+                    <span className="errors">{dataErrors.password}</span>
                   </div>
                 </div>
                 <div className="form-btn">

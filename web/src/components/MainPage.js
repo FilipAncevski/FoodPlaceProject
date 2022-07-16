@@ -23,7 +23,7 @@ export const MainPage = () => {
     }
   };
 
-  let test = recepies.slice(12, 15);
+  let test = recepies.slice(14, 17);
 
   useEffect(() => {
     getData();
@@ -44,7 +44,7 @@ export const MainPage = () => {
               <RecipeCard
                 key={recipe._id}
                 title={recipe.recipeTitle}
-                shortDesc={recipe.recipe}
+                shortDesc={recipe.fabula}
                 prepTime={recipe.prepTime}
                 noPpl={recipe.pplFor}
                 picture={recipe.picture}

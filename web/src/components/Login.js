@@ -18,6 +18,10 @@ export const Login = () => {
 
   const [accountForm, setAccountForm] = useState(accoutInfo);
 
+  const [dataErrors, setDataErrors] = useState({});
+
+  // const [isSubmit, setIsSubmit] = useState(false);
+
   const inputChange = (e) => {
     setAccountForm({
       ...accountForm,
@@ -25,28 +29,51 @@ export const Login = () => {
     });
   };
 
+  const validate = (values) => {
+    const errors = {};
+
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+    const regexPW = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+
+    if (!values.email) {
+      errors.email = "Email is required!";
+    } else if (!regexEmail.test(values.email)) {
+      errors.email = "Please enter a valid email format!";
+    }
+
+    if (!values.password) {
+      errors.password = "Password is required";
+    } else if (!regexPW.test(values.password)) {
+      errors.password =
+        "Password requires 1 capital letter, 1 number and 1 special character";
+    }
+
+    return errors;
+  };
+
   const submitData = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch("/api/v1/auth/login", {
-        method: "POST",
-        body: JSON.stringify(accountForm),
-        headers: {
-          "content-type": "application/json",
-        },
-      });
-      if (accountForm.email === "" || accountForm.password === "") {
-        // eslint-disable-next-line
-        throw "Please fill in your account and password";
+      setDataErrors(validate(accountForm));
+
+      // setIsSubmit(true);
+
+      const check = validate(accountForm);
+
+      if (Object.keys(check).length === 0) {
+        const res = await fetch("/api/v1/auth/login", {
+          method: "POST",
+          body: JSON.stringify(accountForm),
+          headers: {
+            "content-type": "application/json",
+          },
+        });
+        const data = await res.json();
+        localStorage.setItem("token", data.token);
+        navigate("/myprofile");
       }
-      if (!res.ok) {
-        // eslint-disable-next-line
-        throw "There was a error while you were logging in";
-      }
-      const data = await res.json();
-      localStorage.setItem("token", data.token);
-      navigate("/myprofile");
     } catch (error) {
       alert(error);
     }
@@ -94,6 +121,7 @@ export const Login = () => {
                   name="email"
                   onChange={inputChange}
                 />
+                <span className="errors">{dataErrors.email}</span>
               </div>
               <div className="login-form">
                 <label htmlFor="password">Password</label>
@@ -104,6 +132,7 @@ export const Login = () => {
                   name="password"
                   onChange={inputChange}
                 />
+                <span className="errors">{dataErrors.password}</span>
               </div>
               <div className="form-btn">
                 <Button

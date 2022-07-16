@@ -100,7 +100,7 @@ export const MyRecipes = () => {
           <div className="section-container">
             {recipies.length === 0 ? (
               <p>
-                No recipies yet, please create some by clicking the on plus
+                No recipies yet, you can create some by clicking the on plus
                 beneath LOG OUT
               </p>
             ) : (

@@ -56,4 +56,10 @@
 
 .errors {
     color: red;
+    padding: 5px;
+}
+
+.password {
+    width: 300px;
+    height: 21px;
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -28,7 +28,80 @@ export const NewRecipe = () => {
 
   const [picturePreview, setPicturePreview] = useState();
 
+  const [dataErrors, setDataErrors] = useState({});
+
   const navigate = useNavigate();
+
+  const trimData = (object) => {
+    return Object.keys(object).map(
+      (k) =>
+        (object[k] =
+          typeof object[k] == "string" ? object[k].trim() : object[k])
+    );
+  };
+
+  const validate = (values) => {
+    const errors = {};
+
+    const DATA_TYPE = ["image/jpeg", "image/png", "image/pjpeg", "image/gif"];
+
+    if (!values.recipeTitle) {
+      errors.recipeTitle =
+        "Recipe Title is required to be betweend 3 and 15 letters.";
+    } else if (values.recipeTitle.length < 4) {
+      errors.recipeTitle = "First name must be more than 4 characters";
+    } else if (values.recipeTitle.length >= 15) {
+      errors.recipeTitle = "First name cannot exceed more than 15 characters";
+    }
+
+    if (!values.category) {
+      errors.category = "This field is required.";
+    }
+
+    if (!values.prepTime) {
+      errors.prepTime = "Field is required!";
+    } else if (isNaN(values.prepTime)) {
+      errors.prepTime = "This field must be a number!";
+    }
+
+    if (!values.pplFor) {
+      errors.pplFor = "Field is required!";
+    } else if (isNaN(values.pplFor)) {
+      errors.pplFor = "This field must be a number!";
+    }
+
+    if (!values.fabula) {
+      errors.fabula = "Short Description is required";
+    } else if (countWords(values.fabula) > 40) {
+      errors.fabula = `Max word count exceeded by ${
+        countWords(values.fabula) - 40
+      }`;
+    }
+
+    if (!values.recipe) {
+      errors.recipe = "Recipe is required";
+    } else if (countWords(values.recipe) > 150) {
+      errors.recipe = `Max word count exceeded by ${
+        countWords(values.recipe) - 150
+      }`;
+    }
+
+    if (!selectedFile) {
+      errors.picture = "Please choose a picture for the recipe";
+    }
+
+    if (selectedFile) {
+      if (selectedFile.size > 437500) {
+        errors.picture = "File upload is too large";
+      }
+
+      if (!DATA_TYPE.includes(selectedFile.type)) {
+        errors.picture = `File type isnt supported.\nOnly jpeg, png, pjpeg, gif files are allowed`;
+      }
+    }
+
+    return errors;
+  };
 
   const getInput = (e) => {
     e.preventDefault();
@@ -52,7 +125,6 @@ export const NewRecipe = () => {
     setSelectedFile(e.target.files[0]);
     setPicturePreview(URL.createObjectURL(e.target.files[0]));
     setIsSelected(true);
-    console.log(selectedFile);
   };
 
   const cancelRecipe = (e) => {
@@ -63,60 +135,17 @@ export const NewRecipe = () => {
   const createRecipe = async (e) => {
     e.preventDefault();
 
-    const DATA_TYPE = ["image/jpeg", "image/png", "image/pjpeg", "image/gif"];
-
     try {
-      if (!selectedFile) {
-        return alert("Please choose a picture for the recipe");
-      }
+      setDataErrors(validate(recipeInfo));
 
-      if (selectedFile.size > 437500) {
-        return alert("File upload is too large");
-      }
+      const check = validate(recipeInfo);
 
-      if (!DATA_TYPE.includes(selectedFile.type)) {
-        return alert("File type isnt supported");
+      if (Object.keys(check).length === 0) {
+        let image = await recipeImage(e);
+        await recipeText(e, image);
+        navigate("/myrecepies");
+        return Promise.resolve(image);
       }
-
-      if (1 > 0) {
-        console.log(selectedFile);
-        console.log(selectedFile.size);
-      }
-
-      if (isNaN(recipeInfo.pplFor) || isNaN(recipeInfo.prepTime)) {
-        return alert("For Prep. Time and No. People please enter numbers");
-      }
-
-      if (
-        recipeInfo.recipeTitle === "" ||
-        recipeInfo.category === "" ||
-        recipeInfo.prepTime === "In minutes please" ||
-        recipeInfo.prepTime === "" ||
-        recipeInfo.pplFor === "" ||
-        recipeInfo.fabula === "" ||
-        recipeInfo.recipe === ""
-      ) {
-        return alert("Please fill in the inputs");
-      }
-
-      if (countWords(recipeInfo.fabula) > 40) {
-        console.log(countWords(recipeInfo.fabula));
-        return alert(
-          `Short Description exceeded max word count by ${
-            countWords(recipeInfo.fabula) - 40
-          }`
-        );
-      }
-
-      if (countWords(recipeInfo.recipe) > 150) {
-        return alert("Short Description exceeded max word count");
-      }
-
-      let image = await recipeImage(e);
-      console.log(image);
-      await recipeText(e, image);
-      navigate("/myrecepies");
-      return Promise.resolve(image);
     } catch (error) {
       console.log(error);
     }
@@ -157,7 +186,7 @@ export const NewRecipe = () => {
         pplFor: parseInt(recipeInfo.pplFor),
       };
 
-      console.log(data);
+      trimData(data);
 
       setRecipeInfo({ ...recipeInfo, picture: image });
 
@@ -176,9 +205,9 @@ export const NewRecipe = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(selectedFile);
-  }, [selectedFile]);
+  // useEffect(() => {
+  //   console.log(selectedFile);
+  // }, [selectedFile]);
 
   return (
     <div className="App">
@@ -222,6 +251,7 @@ export const NewRecipe = () => {
                     onChange={changeHandler}
                     required
                   />
+                  <span className="errors picture">{dataErrors.picture}</span>
                 </div>
               </form>
             </div>
@@ -236,6 +266,7 @@ export const NewRecipe = () => {
                   onChange={onChangeRecipe}
                   value={recipeInfo.recipeTitle}
                 />
+                <span className="errors">{dataErrors.recipeTitle}</span>
               </div>
               <div className="category-prep-time-no-ppl">
                 <div>
@@ -252,6 +283,7 @@ export const NewRecipe = () => {
                     <option value="lunch">Lunch</option>
                     <option value="dinner">Dinner</option>
                   </select>
+                  <span className="errors cat">{dataErrors.category}</span>
                 </div>
                 <div>
                   <label htmlFor="prepTime">Preparaton Time</label>
@@ -263,6 +295,7 @@ export const NewRecipe = () => {
                     onChange={onChangeRecipe}
                     value={recipeInfo.prepTime}
                   />
+                  <span className="errors">{dataErrors.prepTime}</span>
                 </div>
                 <div>
                   <label htmlFor="pplFor">No. People</label>
@@ -274,6 +307,7 @@ export const NewRecipe = () => {
                     onChange={onChangeRecipe}
                     value={recipeInfo.pplFor}
                   />
+                  <span className="errors">{dataErrors.pplFor}</span>
                 </div>
               </div>
               <div className="short-description">
@@ -286,6 +320,7 @@ export const NewRecipe = () => {
                   onChange={onChangeRecipe}
                   value={recipeInfo.fabula}
                 />
+                <span className="errors">{dataErrors.fabula}</span>
               </div>
               <div className="form-btn-recipe" onClick={createRecipe}>
                 <Button usageFor={"SAVE"} buttonType={"register-btn"} />
@@ -301,6 +336,7 @@ export const NewRecipe = () => {
                 onChange={onChangeRecipe}
                 value={recipeInfo.recipe}
               />
+              <span className="errors">{dataErrors.recipe}</span>
             </div>
           </div>
         </div>

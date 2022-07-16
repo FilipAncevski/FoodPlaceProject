@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { RecipeCard } from "./RecipeCard";
+import { RecipeContext } from "../utils/RecipeContext";
 import "../css/MainPage.css";
+import { PopUpRecipe } from "./PopUpRecipe";
 
 export const MainPage = () => {
   const [recepies, setRecepies] = useState([]);
+
+  const { selectedRecipe, setSelectedRecipe } = useContext(RecipeContext);
 
   const getData = async () => {
     try {
@@ -21,6 +25,10 @@ export const MainPage = () => {
     } catch (error) {
       return console.log(error);
     }
+  };
+
+  const openRecipe = (recipe) => {
+    setSelectedRecipe(recipe);
   };
 
   let test = recepies.slice(14, 17);
@@ -49,6 +57,7 @@ export const MainPage = () => {
                 noPpl={recipe.pplFor}
                 picture={recipe.picture}
                 category={recipe.category}
+                onClick={() => openRecipe(recipe)}
               />
             );
           })}
@@ -73,6 +82,8 @@ export const MainPage = () => {
           <RecipeCard />
         </div>
       </div>
+
+      {selectedRecipe !== "" && <PopUpRecipe />}
     </div>
   );
 };

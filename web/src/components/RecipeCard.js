@@ -16,9 +16,10 @@ export const RecipeCard = ({
   likes,
   picture,
   category,
+  onClick,
 }) => {
   return (
-    <div className="card-container" id="card">
+    <div className="card-container" id="card" onClick={onClick}>
       <div className="image-container">
         <img src={`/api/v1/storage/${picture}`} alt="" />
 

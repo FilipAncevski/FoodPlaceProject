@@ -7,3 +7,15 @@
     height: inherit;
     width: inherit;
 }
+
+.picture {
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.section-container .column .category-prep-time-no-ppl .cat{
+    margin-top: 11px;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 100;
+}

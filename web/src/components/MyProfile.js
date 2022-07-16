@@ -196,7 +196,6 @@ export const MyProfile = () => {
                       // eslint-disable-next-line
                       style={{ display: "none" }}
                       onChange={changeHandler}
-                      // style="display:none"
                     />
                   </div>
                 </div>

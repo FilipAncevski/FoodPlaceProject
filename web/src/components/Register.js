@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -15,60 +15,66 @@ export const Register = () => {
     email: "",
     birthday: "",
     password: "",
+    repeatPassword: "",
   };
 
   const [newAccForm, setNewAccForm] = useState(newAccInfo);
 
   const [dataErrors, setDataErrors] = useState({});
 
-  const [isSubmit, setIsSubmit] = useState(false);
-
-  const [repeatPassword, setRepeatPassword] = useState("");
-
   const navigate = useNavigate();
 
   const validate = (values) => {
     const errors = {};
 
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+    const regexPW = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
     if (!values.firstName) {
       errors.firstName =
-        "Username is required to be betweend 3 and 20 letters.";
+        "Username is required to be betweend 3 and 15 letters.";
+    } else if (values.firstName.length < 4) {
+      errors.firstName = "First name must be more than 4 characters";
+    } else if (values.firstName.length >= 15) {
+      errors.firstName = "First name cannot exceed more than 15 characters";
     }
 
     if (!values.lastName) {
-      errors.lastName = "Lastname is required to be betweend 3 and 20 letters.";
+      errors.lastName = "Lastname is required to be betweend 3 and 15 letters.";
+    } else if (values.lastName.length < 4) {
+      errors.lastName = "First name must be more than 4 characters";
+    } else if (values.lastName.length >= 15) {
+      errors.lastName = "First name cannot exceed more than 15 characters";
     }
 
     if (!values.email) {
       errors.email = "Email is required!";
-    } else if (!regex.test(values.email)) {
+    } else if (!regexEmail.test(values.email)) {
       errors.email = "Please enter a valid email format!";
     }
 
-    if (values.birthday === false) {
+    if (values.birthday === "") {
       errors.birthday = "Birthday is required";
+    } else if (values.birthday >= "2010-01-01") {
+      errors.birthday =
+        "Your need to be at least 12 years old to register on our site";
+    } else if (values.birthday > "2022-01-01") {
+      errors.birthday = "Nice try";
     }
-    console.log(!values.birthday === false);
-    // else if (values.birthday.getFullYear() >= 2011) {
-    //   errors.birthday =
-    //     "Your must be at least 12 years old to register on our site";
-    // }
 
     if (!values.password) {
       errors.password = "Password is required";
-    } else if (values.password.length < 4) {
-      errors.password = "Password must be more than 4 characters";
-    } else if (values.password.length > 10) {
-      errors.password = "Password cannot exceed more than 10 characters";
+    } else if (!regexPW.test(values.password)) {
+      errors.password =
+        "Password requires 1 capital letter, 1 number and 1 special character";
+    }
+
+    if (values.repeatPassword !== values.password) {
+      errors.repeatPassword = "Password doesnt match";
     }
 
     return errors;
-  };
-
-  const repeatPasswordChange = (e) => {
-    setRepeatPassword(e.target.value);
   };
 
   const inputChange = (e) => {
@@ -82,17 +88,15 @@ export const Register = () => {
     e.preventDefault();
 
     try {
-      newAccForm.birthday = new Date(newAccForm.birthday);
-
       setDataErrors(validate(newAccForm));
-
-      setIsSubmit(true);
 
       console.log(newAccForm.birthday);
 
       const check = validate(newAccForm);
 
       if (Object.keys(check).length === 0) {
+        newAccForm.birthday = new Date(newAccForm.birthday);
+
         const res = await fetch("/api/v1/auth/register", {
           method: "POST",
           body: JSON.stringify(newAccForm),
@@ -104,41 +108,10 @@ export const Register = () => {
         navigate("/login");
         return Promise.resolve(data);
       }
-      // if (newAccForm.birthday.getFullYear() >= 2011) {
-      //   // eslint-disable-next-line
-      //   throw "Your must be at least 12 years old to register on our site";
-      // }
-
-      // if (newAccForm.password.toString() !== repeatPassword.toString()) {
-      //   // eslint-disable-next-line
-      //   throw "Your password doesnt match, try again";
-      // }
-
-      // if (Object.keys(dataErrors).length === 0) {
-
-      //   const res = await fetch("/api/v1/auth/register", {
-      //     method: "POST",
-      //     body: JSON.stringify(newAccForm),
-      //     headers: {
-      //       "content-type": "application/json",
-      //     },
-      //   });
-      //   const data = await res.json();
-      //   if (res.status === 201) {
-      //     navigate("/login");
-      //   }
-
-      //   console.log(data);
-      // }
     } catch (error) {
       alert(error);
     }
   };
-
-  useEffect(() => {
-    console.log(Object.keys(dataErrors).length);
-    console.log(dataErrors);
-  }, [dataErrors]);
 
   return (
     <div className="App">
@@ -210,11 +183,12 @@ export const Register = () => {
                   <div className="login-form">
                     <label htmlFor="birthday">Birthday</label>
                     <input
-                      placeholder="dd-mm-yyyy"
+                      placeholder="yyyy-MM-dd"
                       id="birthday"
                       name="birthday"
                       type="date"
                       onChange={inputChange}
+                      value={newAccForm.birthday}
                     />
                     <span className="errors">{dataErrors.birthday}</span>
                   </div>
@@ -229,17 +203,20 @@ export const Register = () => {
                       type={"password"}
                       onChange={inputChange}
                     />
-                    <span className="errors">{dataErrors.password}</span>
+                    <span className="errors password">
+                      {dataErrors.password}
+                    </span>
                   </div>
                   <div className="login-form">
                     <label htmlFor="repeat-password">Repeat password</label>
                     <input
                       placeholder="Confirm your Password"
-                      id="repeat-password"
+                      id="repeatPassword"
+                      name="repeatPassword"
                       type={"password"}
-                      onChange={repeatPasswordChange}
+                      onChange={inputChange}
                     />
-                    <span className="errors">{dataErrors.password}</span>
+                    <span className="errors">{dataErrors.repeatPassword}</span>
                   </div>
                 </div>
                 <div className="form-btn">

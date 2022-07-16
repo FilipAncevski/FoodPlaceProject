@@ -28,7 +28,74 @@ export const EditRecipe = () => {
   // eslint-disable-next-line
   const [isSeleced, setIsSelected] = useState(false);
 
+  const [dataErrors, setDataErrors] = useState({});
+
   const navigate = useNavigate();
+
+  const validate = (values) => {
+    const errors = {};
+
+    const DATA_TYPE = ["image/jpeg", "image/png", "image/pjpeg", "image/gif"];
+
+    if (!values.recipeTitle) {
+      errors.recipeTitle =
+        "Recipe Title is required to be betweend 3 and 15 letters.";
+    } else if (values.recipeTitle.length < 4) {
+      errors.recipeTitle = "First name must be more than 4 characters";
+    } else if (values.recipeTitle.length >= 15) {
+      errors.recipeTitle = "First name cannot exceed more than 15 characters";
+    }
+
+    if (!values.category) {
+      errors.category = "This field is required.";
+    }
+
+    if (!values.prepTime) {
+      errors.prepTime = "Field is required!";
+    } else if (isNaN(values.prepTime)) {
+      errors.prepTime = "This field must be a number!";
+    }
+
+    if (!values.pplFor) {
+      errors.pplFor = "Field is required!";
+    } else if (isNaN(values.pplFor)) {
+      errors.pplFor = "This field must be a number!";
+    }
+
+    if (!values.fabula) {
+      errors.fabula = "Short Description is required";
+    } else if (countWords(values.fabula) > 40) {
+      errors.fabula = `Max word count exceeded by ${
+        countWords(values.fabula) - 40
+      }`;
+    }
+
+    if (!values.recipe) {
+      errors.recipe = "Recipe is required";
+    } else if (countWords(values.recipe) > 150) {
+      errors.recipe = `Max word count exceeded by ${
+        countWords(values.recipe) - 150
+      }`;
+    }
+
+    if (selectedFile) {
+      if (selectedFile.size > 437500) {
+        errors.picture = "File upload is too large";
+      }
+
+      if (!DATA_TYPE.includes(selectedFile.type)) {
+        errors.picture = `File type isnt supported.\nOnly jpeg, png, pjpeg, gif files are allowed`;
+      }
+    }
+
+    return errors;
+  };
+
+  const countWords = (str) => {
+    const arr = str.split(" ");
+
+    return arr.filter((word) => word !== "").length;
+  };
 
   const getInput = (e) => {
     e.preventDefault();
@@ -64,45 +131,22 @@ export const EditRecipe = () => {
     e.preventDefault();
 
     try {
-      if (isNaN(recipeInfo.pplFor) || isNaN(recipeInfo.prepTime)) {
-        return alert("For Prep. Time and No. People please enter numbers");
-      }
+      setDataErrors(validate(recipeInfo));
 
-      if (
-        recipeInfo.recipeTitle === null ||
-        recipeInfo.category === null ||
-        recipeInfo.prepTime === null ||
-        recipeInfo.pplFor === null ||
-        recipeInfo.fabula === null ||
-        recipeInfo.recipe === null
-      ) {
-        return alert("Please fill in the inputs");
-      }
+      const check = validate(recipeInfo);
 
-      if (
-        recipeInfo.recipeTitle === "" ||
-        recipeInfo.category === "" ||
-        recipeInfo.prepTime === "" ||
-        recipeInfo.pplFor === "" ||
-        recipeInfo.fabula === "" ||
-        recipeInfo.recipe === ""
-      ) {
-        return alert("Please fill in the inputs");
-      }
+      if (Object.keys(check).length === 0) {
+        if (!selectedFile) {
+          let image = recipeInfo.picture;
+          let profile = await recipeText(e, image);
+          navigate("/myrecepies");
+          return profile;
+        }
 
-      if (!selectedFile) {
-        let image = recipeInfo.picture;
-        let profile = await recipeText(e, image);
-        console.log(profile);
+        let image = await recipeImage(e);
+        await recipeText(e, image);
         navigate("/myrecepies");
-        return profile;
       }
-
-      let image = await recipeImage(e);
-      let profile = await recipeText(e, image);
-      console.log(image);
-      console.log(profile);
-      navigate("/myrecepies");
     } catch (error) {
       console.log(error);
     }
@@ -145,8 +189,6 @@ export const EditRecipe = () => {
 
       trimData(data);
 
-      console.log(data);
-
       setRecipeInfo({ ...recipeInfo, picture: image });
 
       const res = await fetch(`/api/v1/kitchen/${recipeInfo._id}`, {
@@ -174,10 +216,7 @@ export const EditRecipe = () => {
         },
       });
       let data = await res.json();
-      console.log(data);
       setRecipeInfo(data);
-      console.log(data);
-      console.log(recipeInfo);
     } catch (error) {
       return console.log(error);
     }
@@ -212,24 +251,14 @@ export const EditRecipe = () => {
               </div>
               <form encType="multipart/form-data">
                 <div className="btn-container">
-                  <button
-                    // eslint-disable-next-line
-                    // style={{
-                    //   display: "block",
-                    //   widht: "120px",
-                    //   height: "30px",
-                    // }}
-                    onClick={getInput}
-                  >
-                    UPLOAD IMAGE
-                  </button>
+                  <button onClick={getInput}>UPLOAD IMAGE</button>
                   <input
                     type="file"
                     id="getFile"
-                    // style={{ display: "none" }}
                     onChange={changeHandler}
                     required
                   />
+                  <span className="errors picture">{dataErrors.picture}</span>
                 </div>
               </form>
             </div>
@@ -245,6 +274,7 @@ export const EditRecipe = () => {
                   value={recipeInfo.recipeTitle}
                   required
                 />
+                <span className="errors picture">{dataErrors.recipeTitle}</span>
               </div>
               <div className="category-prep-time-no-ppl">
                 <div>
@@ -262,6 +292,7 @@ export const EditRecipe = () => {
                     <option value="lunch">Lunch</option>
                     <option value="dinner">Dinner</option>
                   </select>
+                  <span className="errors cat">{dataErrors.category}</span>
                 </div>
                 <div>
                   <label htmlFor="prepTime">Preparaton Time</label>
@@ -274,6 +305,7 @@ export const EditRecipe = () => {
                     value={recipeInfo.prepTime}
                     required
                   />
+                  <span className="errors">{dataErrors.prepTime}</span>
                 </div>
                 <div>
                   <label htmlFor="pplFor">No. People</label>
@@ -286,6 +318,7 @@ export const EditRecipe = () => {
                     value={recipeInfo.pplFor}
                     required
                   />
+                  <span className="errors">{dataErrors.pplFor}</span>
                 </div>
               </div>
               <div className="short-description">
@@ -299,6 +332,7 @@ export const EditRecipe = () => {
                   value={recipeInfo.fabula}
                   required
                 />
+                <span className="errors">{dataErrors.fabula}</span>
               </div>
               <div className="form-btn-recipe" onClick={updateRecipe}>
                 <Button usageFor={"SAVE"} buttonType={"register-btn"} />
@@ -315,6 +349,7 @@ export const EditRecipe = () => {
                 value={recipeInfo.recipe}
                 required
               />
+              <span className="errors">{dataErrors.recipe}</span>
             </div>
           </div>
         </div>

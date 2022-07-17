@@ -13,7 +13,7 @@ export const PopUpRecipe = ({ likeAndUpdate, userId }) => {
     setSelectedRecipe("");
   };
 
-  const id = selectedRecipe._id;
+  // const id = selectedRecipe._id;
 
   const likeAndUpdatePopUp = async (e, id) => {
     try {
@@ -74,7 +74,7 @@ export const PopUpRecipe = ({ likeAndUpdate, userId }) => {
               </div>
               <div
                 className="rating-container"
-                onClick={(e) => likeAndUpdatePopUp(e, id)}
+                onClick={(e) => likeAndUpdatePopUp(e, selectedRecipe._id)}
               >
                 <Star />
                 {selectedRecipe.like}

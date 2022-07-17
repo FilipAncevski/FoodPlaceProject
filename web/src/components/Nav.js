@@ -13,7 +13,6 @@ export const Nav = () => {
 
   const logOut = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("email");
     navigate("/");
   };
 
@@ -33,13 +32,21 @@ export const Nav = () => {
         </Link>
       </div>
       <div className="categories-container">
-        <span className="category">BREAKFAST</span>
+        <Link to={"/breakfast"}>
+          <span className="category">BREAKFAST</span>
+        </Link>
         <span className="dot"></span>
-        <span className="category">BRUNCH</span>
+        <Link to={"/brunch"}>
+          <span className="category">BRUNCH</span>
+        </Link>
         <span className="dot"></span>
-        <span className="category">LUNCH</span>
+        <Link to={"/lunch"}>
+          <span className="category">LUNCH</span>
+        </Link>
         <span className="dot"></span>
-        <span className="category">DINNER</span>
+        <Link to={"/dinner"}>
+          <span className="category">DINNER</span>
+        </Link>
       </div>
       {isLogged ? (
         <div className="account-container-logged-in">

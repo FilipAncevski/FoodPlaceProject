@@ -22,7 +22,7 @@ api.use(
     secret: get("security").jwt_key,
     algorithms: ["HS256"],
   }).unless({
-    path: [/^\/api\/v1\/kitchen\/recepies\/.*/],
+    path: [/^\/api\/v1\/kitchen\/recepies/],
   })
 );
 

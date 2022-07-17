@@ -1,31 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
 import { RecipeCard } from "./RecipeCard";
 import { RecipeContext } from "../utils/RecipeContext";
+import { AllRecipiesContext } from "../utils/RecipeContext";
 import "../css/MainPage.css";
 import { PopUpRecipe } from "./PopUpRecipe";
 
 export const MainPage = () => {
-  const [recepies, setRecepies] = useState([]);
-
   const { selectedRecipe, setSelectedRecipe } = useContext(RecipeContext);
 
-  // let proba;
+  const { recepies, setRecepies } = useContext(AllRecipiesContext);
 
-  // const getID = async () => {
-  //   try {
-  //     let res = await fetch("/api/v1/auth/userId", {
-  //       method: "GET",
-  //       headers: {
-  //         "content-type": "application/json",
-  //         authorization: `bearer ${localStorage.getItem("token")}`,
-  //       },
-  //     });
-  //     let data = await res.json();
-  //     proba = data.id;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  let freshAndNew = recepies.slice(recepies.length - 3, recepies.length);
+
+  let mostPopular = recepies.filter((recipe) => recipe.like >= 1);
 
   const getData = async () => {
     try {
@@ -77,10 +64,10 @@ export const MainPage = () => {
     setSelectedRecipe(recipe);
   };
 
-  let test = recepies.slice(recepies.length - 3, recepies.length);
+  // let test = recepies.slice(recepies.length - 3, recepies.length);
 
   useEffect(() => {
-    getData();
+    // getData();
     // if (localStorage.getItem("token")) {
     //   getID();
     // }
@@ -96,7 +83,7 @@ export const MainPage = () => {
           <div className="line-container"></div>
         </div>
         <div className="recipies-cards-container">
-          {test.map((recipe) => {
+          {freshAndNew.map((recipe) => {
             return (
               <RecipeCard
                 key={recipe._id}
@@ -127,12 +114,24 @@ export const MainPage = () => {
           <div className="line-container"></div>
         </div>
         <div className="recipies-cards-container">
-          <RecipeCard />
-          <RecipeCard />
-          <RecipeCard />
-          <RecipeCard />
-          <RecipeCard />
-          <RecipeCard />
+          {mostPopular.map((recipe) => {
+            return (
+              <RecipeCard
+                key={recipe._id}
+                title={recipe.recipeTitle}
+                shortDesc={recipe.fabula}
+                prepTime={recipe.prepTime}
+                noPpl={recipe.pplFor}
+                picture={recipe.picture}
+                category={recipe.category}
+                onClick={() => openRecipe(recipe)}
+                likes={recipe.like}
+                id={recipe._id}
+                likeAndUpdate={likeAndUpdate}
+                liked={recipe.likedBy}
+              />
+            );
+          })}
         </div>
       </div>
 

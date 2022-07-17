@@ -9,6 +9,24 @@ export const MainPage = () => {
 
   const { selectedRecipe, setSelectedRecipe } = useContext(RecipeContext);
 
+  // let proba;
+
+  // const getID = async () => {
+  //   try {
+  //     let res = await fetch("/api/v1/auth/userId", {
+  //       method: "GET",
+  //       headers: {
+  //         "content-type": "application/json",
+  //         authorization: `bearer ${localStorage.getItem("token")}`,
+  //       },
+  //     });
+  //     let data = await res.json();
+  //     proba = data.id;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   const getData = async () => {
     try {
       let res = await fetch("/api/v1/kitchen/recepies", {
@@ -18,12 +36,40 @@ export const MainPage = () => {
           authorization: `bearer ${localStorage.getItem("token")}`,
         },
       });
-      console.log(res);
       let data = await res.json();
       setRecepies(data);
-      console.log(data.length);
     } catch (error) {
       return console.log(error);
+    }
+  };
+
+  const likeAndUpdate = async (e, id) => {
+    e.preventDefault();
+
+    try {
+      await likeUnlikeCard(e, id);
+      await getData();
+    } catch (error) {}
+  };
+  const likeUnlikeCard = async (e, id) => {
+    e.preventDefault();
+
+    const backendId = { id };
+
+    try {
+      let res = await fetch("/api/v1/kitchen/like", {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+          authorization: `bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(backendId),
+      });
+      let data = await res.json();
+      console.log(data);
+      return Promise.reject(data);
+    } catch (error) {
+      return Promise.resolve(error);
     }
   };
 
@@ -31,10 +77,13 @@ export const MainPage = () => {
     setSelectedRecipe(recipe);
   };
 
-  let test = recepies.slice(14, 17);
+  let test = recepies.slice(recepies.length - 3, recepies.length);
 
   useEffect(() => {
     getData();
+    // if (localStorage.getItem("token")) {
+    //   getID();
+    // }
   }, []);
 
   return (
@@ -58,6 +107,10 @@ export const MainPage = () => {
                 picture={recipe.picture}
                 category={recipe.category}
                 onClick={() => openRecipe(recipe)}
+                likes={recipe.like}
+                id={recipe._id}
+                likeAndUpdate={likeAndUpdate}
+                liked={recipe.likedBy}
               />
             );
           })}
@@ -83,7 +136,7 @@ export const MainPage = () => {
         </div>
       </div>
 
-      {selectedRecipe !== "" && <PopUpRecipe />}
+      {selectedRecipe !== "" && <PopUpRecipe likeAndUpdate={likeAndUpdate} />}
     </div>
   );
 };

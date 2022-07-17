@@ -129,7 +129,7 @@ export const MyRecipes = () => {
                         >
                           <Button
                             buttonType={"register-btn myrecipies"}
-                            usageFor={"BRUNCH"}
+                            usageFor={recipe.category}
                           />
                         </td>
                         <td

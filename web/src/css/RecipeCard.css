@@ -101,3 +101,11 @@
     font-weight: 300;
     font-size: 14px;
 }
+
+.rating-container:hover{
+    cursor: pointer;
+}
+
+.yellow{
+    fill: yellow;
+}

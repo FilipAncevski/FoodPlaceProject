@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { RecipeContext } from "../utils/RecipeContext";
 
 import { Button } from "./Button";
@@ -6,22 +6,47 @@ import { Time } from "./Time";
 import { Plate } from "./Plate";
 import { Star } from "./Star";
 
-export const PopUpRecipe = () => {
+export const PopUpRecipe = ({ likeAndUpdate, userId }) => {
   const { selectedRecipe, setSelectedRecipe } = useContext(RecipeContext);
 
   const handleClick = () => {
     setSelectedRecipe("");
   };
 
-  console.log(selectedRecipe);
+  const id = selectedRecipe._id;
+
+  const likeAndUpdatePopUp = async (e, id) => {
+    try {
+      await likeAndUpdate(e, id);
+      let updatedRecipe = await updateTheRecipeInfo(e, selectedRecipe._id);
+      setSelectedRecipe(updatedRecipe);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateTheRecipeInfo = async (e, params) => {
+    try {
+      let res = await fetch(`/api/v1/kitchen/${params}`, {
+        method: "GET",
+        headers: {
+          authorization: `bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      let data = await res.json();
+      return Promise.resolve(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="popup">
-      <button className="close-popup" onClick={handleClick}>
-        &times;
-      </button>
       <div className="popup-container">
         <div className="heading">{selectedRecipe.recipeTitle}</div>
+        <button className="close-popup" onClick={handleClick}>
+          &times;
+        </button>
         <div className="content-container">
           <div className="container-left">
             <div className="recipeImage">
@@ -47,9 +72,12 @@ export const PopUpRecipe = () => {
                 {selectedRecipe.pplFor}{" "}
                 {selectedRecipe.pplFor > 1 ? "persons" : "person"}
               </div>
-              <div className="rating-container">
+              <div
+                className="rating-container"
+                onClick={(e) => likeAndUpdatePopUp(e, id)}
+              >
                 <Star />
-                20
+                {selectedRecipe.like}
               </div>
             </div>
           </div>

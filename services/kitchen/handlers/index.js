@@ -21,7 +21,7 @@ const getAll = async (req, res) => {
 
 const getSingle = async (req, res) => {
   try {
-    let ps = await kitchen.getSingle(req.user.id, req.params.id);
+    let ps = await kitchen.getRecipeForLike(req.params.id);
     if (!ps) {
       throw {
         code: 404,
@@ -42,6 +42,8 @@ const create = async (req, res) => {
       ...req.body,
       user_id: req.user.id,
       createdOn: dateCreator(),
+      like: 0,
+      likedBy: [],
     };
     let ps = await kitchen.createDish(data);
     return res.status(201).send(ps);
@@ -100,6 +102,30 @@ const getAllRecipies = async (req, res) => {
   }
 };
 
+const likeUnlike = async (req, res) => {
+  try {
+    let recipe = await kitchen.getRecipeForLike(req.body.id);
+
+    let data;
+
+    if (!recipe.likedBy.includes(req.user.id)) {
+      data = recipe;
+      data.likedBy.push(req.user.id);
+      data.like = data.like + 1;
+      await kitchen.update(req.body.id, data);
+      return res.status(204).send("");
+    } else if (recipe.likedBy.includes(req.user.id)) {
+      data = recipe;
+      data.likedBy = data.likedBy.filter((user) => user !== req.user.id);
+      data.like = data.like - 1;
+      await kitchen.update(req.body.id, data);
+      return res.status(204).send("");
+    }
+  } catch (error) {
+    return res.status(500).send("Internal Server Error");
+  }
+};
+
 module.exports = {
   getAll,
   getSingle,
@@ -108,4 +134,5 @@ module.exports = {
   updatePartial,
   remove,
   getAllRecipies,
+  likeUnlike,
 };

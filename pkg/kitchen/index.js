@@ -12,9 +12,16 @@ const Kitchen = mongoose.model(
     createdOn: Date,
     user_id: String,
     picture: String,
+    like: Number,
+    likedBy: [String],
   },
   "kitchens"
 );
+
+const getRecipeForLike = async (id) => {
+  let data = await Kitchen.findById({ _id: id });
+  return data;
+};
 
 const createDish = async (dish) => {
   const d = new Kitchen(dish);
@@ -49,4 +56,5 @@ module.exports = {
   getSingle,
   remove,
   getAllRecipies,
+  getRecipeForLike,
 };

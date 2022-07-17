@@ -13,6 +13,7 @@ import { EditRecipe } from "./components/EditRecipe";
 import { NewRecipe } from "./components/NewRecipe";
 
 import "./css/index.css";
+import { Breakfast } from "./components/Breakfast";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -27,6 +28,7 @@ root.render(
       <Route path="/myrecepies" element={<MyRecipes />} />
       <Route path="/myrecepies/:id" element={<EditRecipe />} />
       <Route path="/newrecipe" element={<NewRecipe />} />
+      <Route path="/breakfast" element={<Breakfast />} />
     </Routes>
   </Router>
 );

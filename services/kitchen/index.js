@@ -8,6 +8,7 @@ const {
   update,
   updatePartial,
   getAllRecipies,
+  likeUnlike,
 } = require("./handlers");
 const express = require("express");
 const jwt = require("express-jwt");
@@ -20,6 +21,8 @@ api.use(
   jwt({
     secret: get("security").jwt_key,
     algorithms: ["HS256"],
+  }).unless({
+    path: [/^\/api\/v1\/kitchen\/recepies\/.*/],
   })
 );
 
@@ -28,6 +31,7 @@ api.get("/api/v1/kitchen/recepies", getAllRecipies);
 api.get("/api/v1/kitchen/:id", getSingle);
 api.post("/api/v1/kitchen", create);
 api.delete("/api/v1/kitchen/:id", remove);
+api.put("/api/v1/kitchen/like", likeUnlike);
 api.put("/api/v1/kitchen/:id", update);
 api.patch("/api/v1/kitchen/:id", updatePartial);
 

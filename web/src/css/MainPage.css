@@ -25,7 +25,8 @@
     height: 100%;
     left: 0;
     top:0;
-    background: #000000b0;
+    background: #fffdfdd4;
+    
 }
 
 .popup-container img{
@@ -35,35 +36,37 @@
 }
 
 .close-popup{
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    font-size: 30px;
-    font-weight: bold;
-    background-color: #fff;
+    font-size: 60px;
+    color: #A5A5A5;
+    background-color: #FFFFFF;
+    font-weight: 50;
     border:0px;
     cursor: pointer;
     position: absolute;
-    right:50px;
-    top:50px
+    right:560px;
+    top:200px;
 }
 
 .popup-container{
-    width: 800px;
-    height: 540px;
+    width: 900px;
+    height: 600px;
     overflow: hidden;
     border-radius: 5px;
+    border: 1px solid #D8D8D8;
+    background-color: #FFFFFF;
 }
 
 .popup .popup-container .heading{
     font-size: 38px;
     color: #F0972A;
     padding: 15px 30px;
+    background-color: #FFFFFF;
 }
 
 .content-container{
     display: flex;
     padding: 0px 30px 15px 30px;
+    background-color: #FFFFFF;
 }
 
 .serverFor{
@@ -73,6 +76,11 @@
     justify-content: space-between;
     padding-top: 17px;
     padding-bottom: 10px;
+    background-color: #FFFFFF;
+}
+
+.serverFor span{
+    background-color: #FFFFFF;
 }
 
 .serverFor button{
@@ -86,6 +94,11 @@
 .p-container {
     color: #A5A5A5;
     padding: 15px 0px;
+    background-color: #FFFFFF;
+}
+
+.p-container p{
+    background-color: #FFFFFF;
 }
 
 .diffrent{
@@ -94,33 +107,31 @@
     font-weight: 800;
     color: #626262;
     align-items: center;
+    background-color: #FFFFFF;
 }
 
 .diffrent div{
 padding-right: 15px;
+background-color: #FFFFFF;
 }
 
 .diffrent svg{
 margin-right: 5px;
+background-color: #FFFFFF;
 }
 
 .container-right {
     padding: 0px 15px;
+    background-color: #FFFFFF;
 }
 .container-right span{
     color: #96BB36;
     font-weight: 800;
+    background-color: #FFFFFF;
 }
 
 .container-right p{
     color: #A5A5A5;
     padding: 15px 0px;
-}
-
-.container-left{
-    flex: 0.4;
-}
-
-.container-right{
-    flex: 0.6;
+    background-color: #FFFFFF;
 }

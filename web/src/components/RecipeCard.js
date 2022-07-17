@@ -17,9 +17,13 @@ export const RecipeCard = ({
   picture,
   category,
   onClick,
+  id,
+  likeAndUpdate,
+  liked,
+  userId,
 }) => {
   return (
-    <div className="card-container" id="card" onClick={onClick}>
+    <div className="card-container" id="card">
       <div className="image-container">
         <img src={`/api/v1/storage/${picture}`} alt="" />
 
@@ -39,11 +43,15 @@ export const RecipeCard = ({
             <Plate />
             {noPpl} {noPpl > 1 ? "persons" : "person"}
           </div>
-          <div className="rating-container">
+          <div
+            className="rating-container"
+            onClick={(e) => likeAndUpdate(e, id)}
+          >
+            {/* {liked.includes(userId) ? <Star color={"yellow"} /> : <Star />} */}
             <Star />
-            20
+            {likes}
           </div>
-          <button className="arrows">
+          <button className="arrows" onClick={onClick}>
             <ArrowsRight />
           </button>
         </div>

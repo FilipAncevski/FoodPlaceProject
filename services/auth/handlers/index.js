@@ -108,6 +108,15 @@ const updateAccount = async (req, res) => {
   }
 };
 
+const getTheUserId = async (req, res) => {
+  try {
+    const id = req.user.id;
+    return res.status(200).send({ id });
+  } catch (error) {
+    return res.status(500).send("Error");
+  }
+};
+
 module.exports = {
   login,
   register,
@@ -116,4 +125,5 @@ module.exports = {
   resetPassword,
   getAccsInfo,
   updateAccount,
+  getTheUserId,
 };

@@ -72,17 +72,17 @@ export const NewRecipe = () => {
 
     if (!values.fabula) {
       errors.fabula = "Short Description is required";
-    } else if (countWords(values.fabula) > 40) {
+    } else if (countWords(values.fabula) > 55) {
       errors.fabula = `Max word count exceeded by ${
-        countWords(values.fabula) - 40
+        countWords(values.fabula) - 55
       }`;
     }
 
     if (!values.recipe) {
       errors.recipe = "Recipe is required";
-    } else if (countWords(values.recipe) > 150) {
+    } else if (countWords(values.recipe) > 160) {
       errors.recipe = `Max word count exceeded by ${
-        countWords(values.recipe) - 150
+        countWords(values.recipe) - 160
       }`;
     }
 

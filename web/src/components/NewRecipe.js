@@ -62,12 +62,20 @@ export const NewRecipe = () => {
       errors.prepTime = "Field is required!";
     } else if (isNaN(values.prepTime)) {
       errors.prepTime = "This field must be a number!";
+    } else if (values.prepTime > 1440) {
+      errors.prepTime = "Max preparation time is 1 day";
+    } else if (values.prepTime <= 0) {
+      errors.prepTime = "Min prepration time is 1 min";
     }
 
     if (!values.pplFor) {
       errors.pplFor = "Field is required!";
     } else if (isNaN(values.pplFor)) {
       errors.pplFor = "This field must be a number!";
+    } else if (values.pplFor >= 20) {
+      errors.pplFor = "You must run a catering\nfirm. Max value is 19";
+    } else if (values.pplFor <= 0) {
+      errors.pplFor = "Every meal is meant for at least one person";
     }
 
     if (!values.fabula) {

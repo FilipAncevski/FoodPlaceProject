@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-import { PopUpBreakfast } from "../Popups/PopUpBreakfast";
 import { RecipeCard } from "../RecipeCard";
 import { Nav } from "../Nav";
 import { Footer } from "../Footer";
@@ -11,23 +10,25 @@ export const Brunch = () => {
 
   const [brunch, setBrunch] = useState([]);
 
+  const [user, setUser] = useState();
+
   let info = brunch.filter((recipe) => recipe.category === "brunch");
 
-  //   // const getID = async () => {
-  //   //   try {
-  //   //     let res = await fetch("/api/v1/auth/userId", {
-  //   //       method: "GET",
-  //   //       headers: {
-  //   //         "content-type": "application/json",
-  //   //         authorization: `bearer ${localStorage.getItem("token")}`,
-  //   //       },
-  //   //     });
-  //   //     let data = await res.json();
-  //   //     proba = data.id;
-  //   //   } catch (error) {
-  //   //     console.log(error);
-  //   //   }
-  //   // };
+  const getID = async () => {
+    try {
+      let res = await fetch("/api/v1/auth/userId", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          authorization: `bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      let data = await res.json();
+      setUser(data.id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getData = async () => {
     try {
@@ -38,7 +39,6 @@ export const Brunch = () => {
         },
       });
       let data = await res.json();
-      console.log(data);
       setBrunch(data);
     } catch (error) {
       return console.log(error);
@@ -49,8 +49,10 @@ export const Brunch = () => {
     e.preventDefault();
 
     try {
-      await likeUnlikeCard(e, id);
-      await getData();
+      if (localStorage.getItem("token")) {
+        await likeUnlikeCard(e, id);
+        await getData();
+      }
     } catch (error) {}
   };
   const likeUnlikeCard = async (e, id) => {
@@ -81,9 +83,9 @@ export const Brunch = () => {
 
   useEffect(() => {
     getData();
-    // if (localStorage.getItem("token")) {
-    //   getID();
-    // }
+    if (localStorage.getItem("token")) {
+      getID();
+    }
   }, []);
 
   return (
@@ -96,9 +98,9 @@ export const Brunch = () => {
           <div className="fresh-new">
             <div className="heading-line-container breakfast">
               <div className="heading">
-                <h1>Breakfast</h1>
+                <h1>Brunch</h1>
               </div>
-              <div className="line-container"></div>
+              <div className="line-container brunch"></div>
             </div>
             <div className="recipies-cards-container">
               {info.map((recipe) => {
@@ -116,6 +118,7 @@ export const Brunch = () => {
                     id={recipe._id}
                     likeAndUpdate={likeAndUpdate}
                     liked={recipe.likedBy}
+                    user={user}
                   />
                 );
               })}
@@ -127,6 +130,7 @@ export const Brunch = () => {
               likeAndUpdate={likeAndUpdate}
               selectedBrunch={selectedBrunch}
               setSelectedBrunch={setSelectedBrunch}
+              user={user}
             />
           )}
         </div>

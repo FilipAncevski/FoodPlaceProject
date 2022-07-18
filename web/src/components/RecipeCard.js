@@ -7,6 +7,7 @@ import { Plate } from "./Plate";
 import { Star } from "./Star";
 import { Button } from "./Button";
 import { ArrowsRight } from "./ArrowsRight";
+import { NewStar } from "./NewStar";
 
 export const RecipeCard = ({
   title,
@@ -20,7 +21,7 @@ export const RecipeCard = ({
   id,
   likeAndUpdate,
   liked,
-  userId,
+  user,
 }) => {
   return (
     <div className="card-container" id="card">
@@ -49,8 +50,7 @@ export const RecipeCard = ({
             className="rating-container"
             onClick={(e) => likeAndUpdate(e, id)}
           >
-            {/* {liked.includes(userId) ? <Star color={"yellow"} /> : <Star />} */}
-            <Star />
+            {liked.includes(user) ? <NewStar /> : <Star />}
             {likes}
           </div>
           <button className="arrows" onClick={onClick}>

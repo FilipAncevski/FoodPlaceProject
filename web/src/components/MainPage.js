@@ -1,7 +1,6 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { RecipeCard } from "./RecipeCard";
 import { RecipeContext } from "../utils/RecipeContext";
-import { AllRecipiesContext } from "../utils/RecipeContext";
 import "../css/MainPage.css";
 import { PopUpRecipe } from "./Popups/PopUpRecipe";
 
@@ -9,6 +8,8 @@ export const MainPage = () => {
   const { selectedRecipe, setSelectedRecipe } = useContext(RecipeContext);
 
   const { recepies, setRecepies } = useContext(RecipeContext);
+
+  const [user, setUser] = useState();
 
   let freshAndNew = recepies.slice(recepies.length - 3, recepies.length);
 
@@ -20,7 +21,6 @@ export const MainPage = () => {
         method: "GET",
         headers: {
           "content-type": "application/json",
-          // authorization: `bearer ${localStorage.getItem("token")}`,
         },
       });
       let data = await res.json();
@@ -29,13 +29,30 @@ export const MainPage = () => {
       return console.log(error);
     }
   };
+  const getID = async () => {
+    try {
+      let res = await fetch("/api/v1/auth/userId", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          authorization: `bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      let data = await res.json();
+      setUser(data.id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const likeAndUpdate = async (e, id) => {
     e.preventDefault();
 
     try {
-      await likeUnlikeCard(e, id);
-      await getData();
+      if (localStorage.getItem("token")) {
+        await likeUnlikeCard(e, id);
+        await getData();
+      }
     } catch (error) {}
   };
   const likeUnlikeCard = async (e, id) => {
@@ -67,10 +84,9 @@ export const MainPage = () => {
   // let test = recepies.slice(recepies.length - 3, recepies.length);
 
   useEffect(() => {
-    // getData();
-    // if (localStorage.getItem("token")) {
-    //   getID();
-    // }
+    if (localStorage.getItem("token")) {
+      getID();
+    }
   }, []);
 
   return (
@@ -98,6 +114,7 @@ export const MainPage = () => {
                 id={recipe._id}
                 likeAndUpdate={likeAndUpdate}
                 liked={recipe.likedBy}
+                user={user}
               />
             );
           })}
@@ -129,13 +146,16 @@ export const MainPage = () => {
                 id={recipe._id}
                 likeAndUpdate={likeAndUpdate}
                 liked={recipe.likedBy}
+                user={user}
               />
             );
           })}
         </div>
       </div>
 
-      {selectedRecipe !== "" && <PopUpRecipe likeAndUpdate={likeAndUpdate} />}
+      {selectedRecipe !== "" && (
+        <PopUpRecipe likeAndUpdate={likeAndUpdate} user={user} />
+      )}
     </div>
   );
 };

@@ -4,7 +4,6 @@ import { Footer } from "./Footer";
 import "../css/App.css";
 import { MainPage } from "./MainPage";
 import { RecipeContext } from "../utils/RecipeContext";
-import { AllRecipiesContext } from "../utils/RecipeContext";
 
 function App() {
   const [selectedRecipe, setSelectedRecipe] = useState("");
@@ -21,9 +20,7 @@ function App() {
       });
       let data = await res.json();
       let test = data;
-      console.log(test);
       setRecepies(test);
-      console.log(recepies);
     } catch (error) {
       return console.log(error);
     }
@@ -31,7 +28,6 @@ function App() {
 
   useEffect(() => {
     getData();
-    console.log(recepies);
   }, []);
 
   return (

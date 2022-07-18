@@ -10,23 +10,25 @@ export const Lunch = () => {
 
   const [lunch, setLunch] = useState([]);
 
+  const [user, setUser] = useState();
+
   let info = lunch.filter((recipe) => recipe.category === "lunch");
 
-  //   // const getID = async () => {
-  //   //   try {
-  //   //     let res = await fetch("/api/v1/auth/userId", {
-  //   //       method: "GET",
-  //   //       headers: {
-  //   //         "content-type": "application/json",
-  //   //         authorization: `bearer ${localStorage.getItem("token")}`,
-  //   //       },
-  //   //     });
-  //   //     let data = await res.json();
-  //   //     proba = data.id;
-  //   //   } catch (error) {
-  //   //     console.log(error);
-  //   //   }
-  //   // };
+  const getID = async () => {
+    try {
+      let res = await fetch("/api/v1/auth/userId", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          authorization: `bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      let data = await res.json();
+      setUser(data.id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getData = async () => {
     try {
@@ -37,7 +39,6 @@ export const Lunch = () => {
         },
       });
       let data = await res.json();
-      console.log(data);
       setLunch(data);
     } catch (error) {
       return console.log(error);
@@ -48,8 +49,10 @@ export const Lunch = () => {
     e.preventDefault();
 
     try {
-      await likeUnlikeCard(e, id);
-      await getData();
+      if (localStorage.getItem("token")) {
+        await likeUnlikeCard(e, id);
+        await getData();
+      }
     } catch (error) {}
   };
   const likeUnlikeCard = async (e, id) => {
@@ -80,9 +83,9 @@ export const Lunch = () => {
 
   useEffect(() => {
     getData();
-    // if (localStorage.getItem("token")) {
-    //   getID();
-    // }
+    if (localStorage.getItem("token")) {
+      getID();
+    }
   }, []);
 
   return (
@@ -95,9 +98,9 @@ export const Lunch = () => {
           <div className="fresh-new">
             <div className="heading-line-container breakfast">
               <div className="heading">
-                <h1>Breakfast</h1>
+                <h1>Lunch</h1>
               </div>
-              <div className="line-container"></div>
+              <div className="line-container lunch"></div>
             </div>
             <div className="recipies-cards-container">
               {info.map((recipe) => {
@@ -115,6 +118,7 @@ export const Lunch = () => {
                     id={recipe._id}
                     likeAndUpdate={likeAndUpdate}
                     liked={recipe.likedBy}
+                    user={user}
                   />
                 );
               })}
@@ -126,6 +130,7 @@ export const Lunch = () => {
               likeAndUpdate={likeAndUpdate}
               selectedLunch={selectedLunch}
               setSelectedLunch={setSelectedLunch}
+              user={user}
             />
           )}
         </div>

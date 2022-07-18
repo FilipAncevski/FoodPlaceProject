@@ -33,7 +33,7 @@ export const Register = () => {
 
     if (!values.firstName) {
       errors.firstName =
-        "Username is required to be betweend 3 and 15 letters.";
+        "First name is required to be betweend 3 and 15 letters.";
     } else if (values.firstName.length < 4) {
       errors.firstName = "First name must be more than 4 characters";
     } else if (values.firstName.length >= 15) {
@@ -67,7 +67,7 @@ export const Register = () => {
       errors.password = "Password is required";
     } else if (!regexPW.test(values.password)) {
       errors.password =
-        "Password requires 1 capital letter, 1 number and 1 special character";
+        "Password requires 1 capital letter, 1 number and 1 special character and should have a length between 8 and 24 characters";
     }
 
     if (values.repeatPassword !== values.password) {
@@ -89,8 +89,6 @@ export const Register = () => {
 
     try {
       setDataErrors(validate(newAccForm));
-
-      console.log(newAccForm.birthday);
 
       const check = validate(newAccForm);
 

@@ -10,23 +10,25 @@ export const Breakfast = () => {
 
   const [breakfast, setBreakfast] = useState([]);
 
+  const [user, setUser] = useState();
+
   let info = breakfast.filter((recipe) => recipe.category === "breakfast");
 
-  //   // const getID = async () => {
-  //   //   try {
-  //   //     let res = await fetch("/api/v1/auth/userId", {
-  //   //       method: "GET",
-  //   //       headers: {
-  //   //         "content-type": "application/json",
-  //   //         authorization: `bearer ${localStorage.getItem("token")}`,
-  //   //       },
-  //   //     });
-  //   //     let data = await res.json();
-  //   //     proba = data.id;
-  //   //   } catch (error) {
-  //   //     console.log(error);
-  //   //   }
-  //   // };
+  const getID = async () => {
+    try {
+      let res = await fetch("/api/v1/auth/userId", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          authorization: `bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      let data = await res.json();
+      setUser(data.id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getData = async () => {
     try {
@@ -37,7 +39,6 @@ export const Breakfast = () => {
         },
       });
       let data = await res.json();
-      console.log(data);
       setBreakfast(data);
     } catch (error) {
       return console.log(error);
@@ -48,8 +49,10 @@ export const Breakfast = () => {
     e.preventDefault();
 
     try {
-      await likeUnlikeCard(e, id);
-      await getData();
+      if (localStorage.getItem("token")) {
+        await likeUnlikeCard(e, id);
+        await getData();
+      }
     } catch (error) {}
   };
   const likeUnlikeCard = async (e, id) => {
@@ -80,9 +83,9 @@ export const Breakfast = () => {
 
   useEffect(() => {
     getData();
-    // if (localStorage.getItem("token")) {
-    //   getID();
-    // }
+    if (localStorage.getItem("token")) {
+      getID();
+    }
   }, []);
 
   return (
@@ -97,7 +100,7 @@ export const Breakfast = () => {
               <div className="heading">
                 <h1>Breakfast</h1>
               </div>
-              <div className="line-container"></div>
+              <div className="line-container breakfast"></div>
             </div>
             <div className="recipies-cards-container">
               {info.map((recipe) => {
@@ -115,6 +118,7 @@ export const Breakfast = () => {
                     id={recipe._id}
                     likeAndUpdate={likeAndUpdate}
                     liked={recipe.likedBy}
+                    user={user}
                   />
                 );
               })}
@@ -126,6 +130,7 @@ export const Breakfast = () => {
               likeAndUpdate={likeAndUpdate}
               selectedBreakfast={selectedBreakfast}
               setSelectedBreakfast={setSelectedBreakfast}
+              user={user}
             />
           )}
         </div>

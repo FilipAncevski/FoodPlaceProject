@@ -4,11 +4,13 @@ import { Button } from "../Button";
 import { Time } from "../Time";
 import { Plate } from "../Plate";
 import { Star } from "../Star";
+import { NewStar } from "../NewStar";
 
 export const PopUpBreakfast = ({
   likeAndUpdate,
   selectedBreakfast,
   setSelectedBreakfast,
+  user,
 }) => {
   const handleClick = () => {
     setSelectedBreakfast("");
@@ -16,9 +18,11 @@ export const PopUpBreakfast = ({
 
   const likeAndUpdatePopUp = async (e, id) => {
     try {
-      await likeAndUpdate(e, id);
-      let updatedRecipe = await updateTheRecipeInfo(e, selectedBreakfast._id);
-      setSelectedBreakfast(updatedRecipe);
+      if (localStorage.getItem("token")) {
+        await likeAndUpdate(e, id);
+        let updatedRecipe = await updateTheRecipeInfo(e, selectedBreakfast._id);
+        setSelectedBreakfast(updatedRecipe);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -78,7 +82,11 @@ export const PopUpBreakfast = ({
                 className="rating-container"
                 onClick={(e) => likeAndUpdatePopUp(e, selectedBreakfast._id)}
               >
-                <Star />
+                {selectedBreakfast.likedBy.includes(user) ? (
+                  <NewStar />
+                ) : (
+                  <Star />
+                )}
                 {selectedBreakfast.like}
               </div>
             </div>

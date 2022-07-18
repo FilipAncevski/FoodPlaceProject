@@ -20,8 +20,6 @@ export const Login = () => {
 
   const [dataErrors, setDataErrors] = useState({});
 
-  // const [isSubmit, setIsSubmit] = useState(false);
-
   const inputChange = (e) => {
     setAccountForm({
       ...accountForm,
@@ -58,8 +56,6 @@ export const Login = () => {
     try {
       setDataErrors(validate(accountForm));
 
-      // setIsSubmit(true);
-
       const check = validate(accountForm);
 
       if (Object.keys(check).length === 0) {
@@ -75,7 +71,10 @@ export const Login = () => {
         navigate("/myprofile");
       }
     } catch (error) {
-      alert(error);
+      if (error) {
+        let check = validate(error);
+        console.log(check);
+      }
     }
   };
 

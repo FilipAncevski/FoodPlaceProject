@@ -85,6 +85,22 @@
     padding: 10px 30px;
 }
 
+#main-page .brunch {
+    flex: 22;
+}
 
+#main-page .dinner {
+    flex: 23;
+}
 
+#main-page .lunch {
+    flex: 24;
+}
 
+#main-page .breakfast {
+    flex: 16;
+}
+
+#my-prof {
+    flex: 15;
+}

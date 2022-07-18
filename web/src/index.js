@@ -5,15 +5,16 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import App from "./components/App";
 import { Login } from "./components/Login";
 import { Register } from "./components/Register";
-import { MyProfile } from "./components/MyProfile";
-import { MyProfileMust } from "./components/MyProfileMust";
 import { MyProfileFinal } from "./components/MyProfileFinal";
 import { MyRecipes } from "./components/MyRecipes";
 import { EditRecipe } from "./components/EditRecipe";
 import { NewRecipe } from "./components/NewRecipe";
+import { Breakfast } from "./components/categories/Breakfast";
+import { Brunch } from "./components/categories/Brunch";
+import { Lunch } from "./components/categories/Lunch";
+import { Dinner } from "./components/categories/Dinner";
 
 import "./css/index.css";
-import { Breakfast } from "./components/Breakfast";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -22,13 +23,14 @@ root.render(
       <Route path="/" element={<App />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      {/* <Route path="/myprofile" element={<MyProfile />} /> */}
-      {/* <Route path="/myprofileTEST" element={<MyProfileMust />} /> */}
       <Route path="/myprofile" element={<MyProfileFinal />} />
       <Route path="/myrecepies" element={<MyRecipes />} />
       <Route path="/myrecepies/:id" element={<EditRecipe />} />
       <Route path="/newrecipe" element={<NewRecipe />} />
       <Route path="/breakfast" element={<Breakfast />} />
+      <Route path="/brunch" element={<Brunch />} />
+      <Route path="/lunch" element={<Lunch />} />
+      <Route path="/dinner" element={<Dinner />} />
     </Routes>
   </Router>
 );

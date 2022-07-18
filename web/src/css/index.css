@@ -14,5 +14,7 @@
 }
 
 main{
-     width: 100%;
+     width: 80%;
+     margin: 0px auto;
+     min-height: 680px;
 }

@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { RecipeCard } from "./RecipeCard";
 import { RecipeContext } from "../utils/RecipeContext";
 import { AllRecipiesContext } from "../utils/RecipeContext";
 import "../css/MainPage.css";
-import { PopUpRecipe } from "./PopUpRecipe";
+import { PopUpRecipe } from "./Popups/PopUpRecipe";
 
 export const MainPage = () => {
   const { selectedRecipe, setSelectedRecipe } = useContext(RecipeContext);
 
-  const { recepies, setRecepies } = useContext(AllRecipiesContext);
+  const { recepies, setRecepies } = useContext(RecipeContext);
 
   let freshAndNew = recepies.slice(recepies.length - 3, recepies.length);
 
@@ -20,7 +20,7 @@ export const MainPage = () => {
         method: "GET",
         headers: {
           "content-type": "application/json",
-          authorization: `bearer ${localStorage.getItem("token")}`,
+          // authorization: `bearer ${localStorage.getItem("token")}`,
         },
       });
       let data = await res.json();

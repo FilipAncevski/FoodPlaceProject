@@ -50,8 +50,8 @@ export const NewRecipe = () => {
         "Recipe Title is required to be betweend 3 and 15 letters.";
     } else if (values.recipeTitle.length < 4) {
       errors.recipeTitle = "First name must be more than 4 characters";
-    } else if (values.recipeTitle.length >= 15) {
-      errors.recipeTitle = "First name cannot exceed more than 15 characters";
+    } else if (values.recipeTitle.length >= 30) {
+      errors.recipeTitle = "First name cannot exceed more than 30 characters";
     }
 
     if (!values.category) {

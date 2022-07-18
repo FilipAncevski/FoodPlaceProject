@@ -1,19 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 
-import { RecipeCard } from "./RecipeCard";
-import { PopUpRecipe } from "./PopUpRecipe";
-import { Nav } from "./Nav";
-import { Footer } from "./Footer";
+import { RecipeCard } from "../RecipeCard";
+import { Nav } from "../Nav";
+import { Footer } from "../Footer";
+import { PopUpDinner } from "../Popups/PopUpDinner";
 
-import { RecipeContext } from "../utils/RecipeContext";
-import { AllRecipiesContext } from "../utils/RecipeContext";
+export const Dinner = () => {
+  const [selectedDinner, setSelectedDinner] = useState("");
 
-export const Breakfast = () => {
-  const [breakfastRec, setBreakfastRec] = useState([]);
+  const [dinner, setDinner] = useState([]);
 
-  let breakfast = breakfastRec.filter(
-    (recipe) => recipe.category === "breakfast"
-  );
+  let info = dinner.filter((recipe) => recipe.category === "dinner");
 
   //   // const getID = async () => {
   //   //   try {
@@ -37,11 +34,11 @@ export const Breakfast = () => {
         method: "GET",
         headers: {
           "content-type": "application/json",
-          authorization: `bearer ${localStorage.getItem("token")}`,
         },
       });
       let data = await res.json();
-      setBreakfastRec(data);
+      console.log(data);
+      setDinner(data);
     } catch (error) {
       return console.log(error);
     }
@@ -78,7 +75,7 @@ export const Breakfast = () => {
   };
 
   const openRecipe = (recipe) => {
-    // setSelectedRecipe(recipe);
+    setSelectedDinner(recipe);
   };
 
   useEffect(() => {
@@ -103,7 +100,7 @@ export const Breakfast = () => {
               <div className="line-container"></div>
             </div>
             <div className="recipies-cards-container">
-              {breakfast.map((recipe) => {
+              {info.map((recipe) => {
                 return (
                   <RecipeCard
                     key={recipe._id}
@@ -124,9 +121,13 @@ export const Breakfast = () => {
             </div>
           </div>
 
-          {/* {selectedRecipe !== "" && (
-            <PopUpRecipe likeAndUpdate={likeAndUpdate} />
-          )} */}
+          {selectedDinner !== "" && (
+            <PopUpDinner
+              likeAndUpdate={likeAndUpdate}
+              selectedDinner={selectedDinner}
+              setSelectedDinner={setSelectedDinner}
+            />
+          )}
         </div>
       </main>
       <footer>

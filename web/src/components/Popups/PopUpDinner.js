@@ -1,25 +1,24 @@
-import React, { useContext, useState } from "react";
-import { RecipeContext } from "../utils/RecipeContext";
+import React from "react";
 
-import { Button } from "./Button";
-import { Time } from "./Time";
-import { Plate } from "./Plate";
-import { Star } from "./Star";
+import { Button } from "../Button";
+import { Time } from "../Time";
+import { Plate } from "../Plate";
+import { Star } from "../Star";
 
-export const PopUpRecipe = ({ likeAndUpdate, userId }) => {
-  const { selectedRecipe, setSelectedRecipe } = useContext(RecipeContext);
-
+export const PopUpDinner = ({
+  likeAndUpdate,
+  selectedDinner,
+  setSelectedDinner,
+}) => {
   const handleClick = () => {
-    setSelectedRecipe("");
+    setSelectedDinner("");
   };
-
-  // const id = selectedRecipe._id;
 
   const likeAndUpdatePopUp = async (e, id) => {
     try {
       await likeAndUpdate(e, id);
-      let updatedRecipe = await updateTheRecipeInfo(e, selectedRecipe._id);
-      setSelectedRecipe(updatedRecipe);
+      let updatedRecipe = await updateTheRecipeInfo(e, selectedDinner._id);
+      setSelectedDinner(updatedRecipe);
     } catch (error) {
       console.log(error);
     }
@@ -43,47 +42,47 @@ export const PopUpRecipe = ({ likeAndUpdate, userId }) => {
   return (
     <div className="popup">
       <div className="popup-container">
-        <div className="heading">{selectedRecipe.recipeTitle}</div>
+        <div className="heading">{selectedDinner.recipeTitle}</div>
         <button className="close-popup" onClick={handleClick}>
           &times;
         </button>
         <div className="content-container">
           <div className="container-left">
             <div className="recipeImage">
-              <img src={`/api/v1/storage/${selectedRecipe.picture}`} alt="" />
+              <img src={`/api/v1/storage/${selectedDinner.picture}`} alt="" />
             </div>
             <div className="serverFor">
               <span>Best Server For</span>
               <Button
                 buttonType={"register-btn card"}
-                usageFor={selectedRecipe.category}
+                usageFor={selectedDinner.category}
               />
             </div>
             <div className="p-container">
-              <p>{selectedRecipe.fabula}</p>
+              <p>{selectedDinner.fabula}</p>
             </div>
             <div className="attributes-container diffrent">
               <div className="time-container">
                 <Time />
-                {selectedRecipe.prepTime} min
+                {selectedDinner.prepTime} min
               </div>
               <div className="person-container">
                 <Plate />
-                {selectedRecipe.pplFor}{" "}
-                {selectedRecipe.pplFor > 1 ? "persons" : "person"}
+                {selectedDinner.pplFor}{" "}
+                {selectedDinner.pplFor > 1 ? "persons" : "person"}
               </div>
               <div
                 className="rating-container"
-                onClick={(e) => likeAndUpdatePopUp(e, selectedRecipe._id)}
+                onClick={(e) => likeAndUpdatePopUp(e, selectedDinner._id)}
               >
                 <Star />
-                {selectedRecipe.like}
+                {selectedDinner.like}
               </div>
             </div>
           </div>
           <div className="container-right">
             <span>Recipe Details</span>
-            <p>{selectedRecipe.recipe}</p>
+            <p>{selectedDinner.recipe}</p>
           </div>
         </div>
       </div>

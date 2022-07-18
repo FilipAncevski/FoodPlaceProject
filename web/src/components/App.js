@@ -20,7 +20,10 @@ function App() {
         },
       });
       let data = await res.json();
-      setRecepies(data);
+      let test = data;
+      console.log(test);
+      setRecepies(test);
+      console.log(recepies);
     } catch (error) {
       return console.log(error);
     }
@@ -28,23 +31,29 @@ function App() {
 
   useEffect(() => {
     getData();
-  });
+    console.log(recepies);
+  }, []);
 
   return (
-    <RecipeContext.Provider value={{ selectedRecipe, setSelectedRecipe }}>
-      <AllRecipiesContext.Provider value={{ recepies }}>
-        <div className="App">
-          <nav>
-            <Nav />
-          </nav>
-          <main>
-            <MainPage />
-          </main>
-          <footer>
-            <Footer />
-          </footer>
-        </div>
-      </AllRecipiesContext.Provider>
+    <RecipeContext.Provider
+      value={{
+        selectedRecipe,
+        setSelectedRecipe,
+        recepies,
+        setRecepies,
+      }}
+    >
+      <div className="App">
+        <nav>
+          <Nav />
+        </nav>
+        <main>
+          <MainPage />
+        </main>
+        <footer>
+          <Footer />
+        </footer>
+      </div>
     </RecipeContext.Provider>
   );
 }
